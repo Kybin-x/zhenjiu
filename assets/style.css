@@ -71,11 +71,11 @@ button { cursor:pointer; border:none; background:none; font-family:inherit; }
   display:flex; align-items:center; gap:.45rem; flex-shrink:0;
 }
 .nav-logo-dot { width:8px; height:8px; background:var(--coral); border-radius:50%; }
-.nav-links { display:flex; align-items:center; gap:.1rem; list-style:none; overflow-x:auto; scrollbar-width:none; }
+.nav-links { display:flex; align-items:center; gap:.2rem; list-style:none; overflow-x:auto; scrollbar-width:none; }
 .nav-links::-webkit-scrollbar { display:none; }
 .nav-links a {
-  display:flex; align-items:center; gap:.1rem;
-  padding:.38rem .4rem; border-radius:20px;
+  display:flex; align-items:center; gap:.3rem;
+  padding:.38rem .8rem; border-radius:20px;
   font-size:.8rem; color:rgba(255,255,255,0.65);
   transition:color .2s,background .2s; white-space:nowrap;
 }
