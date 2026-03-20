@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>病症治疗 · 针灸入门</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+  .cat-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .cat-tab{display:flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:20px;font-size:.84rem;font-weight:500;background:var(--white);border:1.5px solid var(--warm-gray);color:var(--text-2);cursor:pointer;transition:all .2s}
+  .cat-tab:hover{border-color:var(--coral);color:var(--coral)}
+  .cat-tab.active{background:var(--coral);border-color:var(--coral);color:var(--white);font-weight:700}
+  .condition-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-bottom:3rem}
+  .condition-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--warm-gray);box-shadow:var(--shadow-sm);overflow:hidden;cursor:pointer;transition:transform .25s var(--ease-spring),box-shadow .25s}
+  .condition-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+  .cc-head{padding:1.25rem 1.4rem 1rem;display:flex;align-items:flex-start;gap:.9rem}
+  .cc-icon{width:48px;height:48px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+  .cc-name{font-family:var(--font-serif);font-size:1.15rem;font-weight:700;color:var(--teal);margin-bottom:.2rem}
+  .cc-sub{font-size:.78rem;color:var(--text-3)}
+  .cc-body{padding:0 1.4rem;max-height:0;overflow:hidden;transition:max-height .45s var(--ease),padding .3s}
+  .condition-card.open .cc-body{max-height:600px;padding-bottom:1.4rem}
+  .cc-divider{height:1px;background:var(--warm-gray);margin-bottom:1rem}
+  .presc-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:.5rem}
+  .presc-pts{display:flex;flex-wrap:wrap;gap:.4rem}
+  .pp{background:var(--teal-pale);color:var(--teal-mid);border:1px solid #c0dce8;border-radius:6px;padding:.25rem .7rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s}
+  .pp:hover{background:var(--teal);color:var(--white)}
+  .pp.prim{background:var(--coral-pale);color:var(--coral-dark);border-color:#f5c0b0}
+  .pp.prim:hover{background:var(--coral);color:var(--white)}
+  .note-box{background:var(--cream2);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:.82rem;color:var(--text-2);line-height:1.8;margin-top:.75rem}
+  .note-box strong{color:var(--teal)}
+  .ssw{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-mid) 100%);border-radius:var(--radius-xl);padding:2rem 2.5rem;color:var(--white);margin-bottom:2.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+  .ssw h3{font-family:var(--font-serif);font-size:1.3rem;font-weight:700;margin-bottom:.3rem}
+  .ssw p{font-size:.88rem;color:rgba(255,255,255,.65)}
+  .ssw-iw{flex:1;min-width:240px;position:relative}
+  .ssw-in{width:100%;padding:.85rem 1.2rem .85rem 3rem;border-radius:var(--radius-xl);border:1.5px solid rgba(255,255,255,0.2);font-size:.92rem;font-family:var(--font-sans);background:rgba(255,255,255,0.12);color:var(--white);outline:none;transition:border-color .2s,background .2s}
+  .ssw-in:focus{border-color:var(--coral-light);background:rgba(255,255,255,.18)}
+  .ssw-in::placeholder{color:rgba(255,255,255,.45)}
+  .ssw-ico{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;color:rgba(255,255,255,.5)}
+  .mo{position:fixed;inset:0;background:rgba(26,58,74,.55);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:1.5rem}
+  .mo.open{display:flex;animation:fadeIn .2s}
+  .md{background:var(--white);border-radius:var(--radius-xl);width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:scaleIn .25s var(--ease-spring)}
+  .mh{padding:1.75rem 2rem 1.25rem;border-bottom:1px solid var(--warm-gray);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:sticky;top:0;background:var(--white);border-radius:var(--radius-xl) var(--radius-xl) 0 0;z-index:1}
+  .mh-ico{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+  .m-title{font-family:var(--font-serif);font-size:1.8rem;font-weight:700;color:var(--teal);line-height:1}
+  .m-sub{font-size:.82rem;color:var(--text-3);margin-top:.3rem}
+  .mcl{width:36px;height:36px;border-radius:50%;background:var(--cream2);color:var(--text-2);font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+  .mcl:hover{background:var(--warm-gray)}
+  .mb{padding:1.5rem 2rem 2rem}
+  .ms{margin-bottom:1.5rem}
+  .ms-t{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:.65rem}
+  .ms-x{font-size:.9rem;color:var(--text-2);line-height:1.85}
+  .vt{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:.5rem}
+  .vt th{background:var(--teal);color:rgba(255,255,255,.85);padding:.6rem .85rem;text-align:left;font-weight:400;font-family:var(--font-serif);font-size:.78rem}
+  .vt td{padding:.55rem .85rem;border-bottom:1px solid var(--warm-gray);color:var(--text-2);vertical-align:top}
+  .vt tr:nth-child(even) td{background:var(--cream2)}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes scaleIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+  @media(max-width:600px){.ssw{padding:1.5rem}.condition-grid{grid-template-columns:1fr}.mb{padding:1rem 1.25rem 1.5rem}.mh{padding:1.25rem}}
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-dot"></span>针灸入门</a>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 <span class="nav-txt">首页</span></a></li>
+      <li><a href="theory.html">📖 <span class="nav-txt">基础理论</span></a></li>
+      <li><a href="acupoints.html">📍 <span class="nav-txt">穴位图谱</span></a></li>
+      <li><a href="treatment.html" class="active">💊 <span class="nav-txt">病症治疗</span></a></li>
+      <li><a href="anatomy.html">🫀 <span class="nav-txt">体表解剖</span></a></li>
+      <li><a href="history.html">📜 <span class="nav-txt">历史文化</span></a></li>
+      <li><a href="safety.html">🛡️ <span class="nav-txt">安全禁忌</span></a></li>
+    </ul>
+  </div>
+</nav>
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">💊 病症治疗</div>
+    <h1>常见病症针灸治疗</h1>
+    <p>12种常见病症的配穴方案、操作要点与辨证加减。穴位标签可直接跳转穴位图谱。</p>
+  </div>
+  <div class="ssw">
+    <div><h3>症状检索</h3><p>输入症状关键词快速找到对应方案</p></div>
+    <div class="ssw-iw"><span class="ssw-ico">🔍</span><input class="ssw-in" id="ssearch" placeholder="如：头痛、失眠、颈肩痛…"></div>
+  </div>
+  <div class="cat-tabs" id="catTabs">
+    <button class="cat-tab active" data-cat="all">全部</button>
+    <button class="cat-tab" data-cat="pain">🦴 痛症</button>
+    <button class="cat-tab" data-cat="internal">💊 内科</button>
+    <button class="cat-tab" data-cat="neuro">🧠 神经/情志</button>
+  </div>
+  <div class="condition-grid" id="cgrid"></div>
+</div>
+<div class="mo" id="mo" onclick="closeMo(event)">
+  <div class="md">
+    <div class="mh">
+      <div style="display:flex;align-items:center;gap:.9rem">
+        <div class="mh-ico" id="m-ico"></div>
+        <div><div class="m-title" id="m-name"></div><div class="m-sub" id="m-sub"></div></div>
+      </div>
+      <button class="mcl" onclick="closeMoBtn()">✕</button>
+    </div>
+    <div class="mb">
+      <div class="ms"><div class="ms-t">病因病机</div><div class="ms-x" id="m-etio"></div></div>
+      <div class="ms"><div class="ms-t">主穴处方</div><div id="m-main"></div></div>
+      <div class="ms" id="m-var-s"><div class="ms-t">辨证加减</div><div id="m-var"></div></div>
+      <div class="ms"><div class="ms-t">操作要点</div><div class="ms-x" id="m-op"></div></div>
+      <div class="ms"><div class="ms-t">注意事项</div><div class="ms-x" id="m-note"></div></div>
+    </div>
+  </div>
+</div>
+<footer class="site-footer"><strong>针灸入门</strong> · 病症治疗方案仅供学习参考，实际治疗请在专业医师指导下进行</footer>
+<script src="assets/acupoints-data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+const CD=[
+  {id:'ha',name:'头痛',sub:'各类头痛的针灸治疗',icon:'🤯',bg:'#FFF0ED',cat:'pain',
+   etio:'外感风寒湿热侵袭经络，或肝阳上亢、气血不足、痰浊阻络，气血不畅，不通则痛。',
+   main:['百会GV20','太阳EX-HN5','风池GB20','合谷LI4'],
+   var:[{t:'风寒头痛',p:'风门BL12、列缺LU7',m:'针刺加艾灸'},{t:'风热头痛',p:'大椎GV14、曲池LI11',m:'泻法'},{t:'肝阳头痛',p:'太冲LV3、侠溪GB43',m:'泻法'},{t:'气血不足',p:'气海CV6、足三里ST36',m:'补法加灸'},{t:'前头痛',p:'印堂、上星GV23',m:'阳明经'},{t:'后头痛',p:'天柱BL10、昆仑BL60',m:'太阳经'},{t:'偏头痛',p:'率谷GB8、外关SJ5',m:'少阳经'}],
+   op:'百会平刺0.5~1寸；风池针尖向鼻尖方向，勿向上深刺。留针20~30分钟。',
+   note:'器质性疾病（颅内肿瘤、高血压危象）引起的头痛须先排除。'},
+  {id:'ins',name:'失眠',sub:'不寐·难以入睡或眠浅易醒',icon:'🌙',bg:'#EEF2FF',cat:'neuro',
+   etio:'心神不宁为总病机。常见心脾两虚、心肾不交、肝郁化火、痰热扰心等证型。',
+   main:['神门HT7','内关PC6','百会GV20','四神聪EX-HN1','安眠穴'],
+   var:[{t:'心脾两虚',p:'心俞BL15、脾俞BL20、足三里',m:'补法加灸'},{t:'心肾不交',p:'太溪KI3、心俞BL15',m:'补肾阴，清心火'},{t:'肝郁化火',p:'太冲LV3、行间LV2',m:'泻法'},{t:'痰热扰心',p:'丰隆ST40、中脘CV12',m:'泻法'}],
+   op:'傍晚或睡前1~2小时治疗效果最佳。神门、内关轻刺激。百会可留针30~45分钟。',
+   note:'配合睡眠卫生指导；病程较长者需坚持治疗2~4周以上。'},
+  {id:'np',name:'颈肩痛',sub:'颈椎病·落枕·颈肩肌筋膜炎',icon:'🦴',bg:'#F0FFF4',cat:'pain',
+   etio:'风寒湿邪痹阻颈项经络，或长期姿势不良、颈椎退变，气血瘀滞，筋脉失养。',
+   main:['风池GB20','天柱BL10','颈夹脊','后溪SI3','申脉BL62'],
+   var:[{t:'落枕（急性）',p:'落枕穴、悬钟GB39',m:'强刺激，边针边活动颈部'},{t:'风寒型',p:'大椎GV14、风门BL12',m:'针刺加艾灸'},{t:'气血瘀滞',p:'膈俞BL17、阿是穴',m:'刺络拔罐'},{t:'颈椎病神经根型',p:'大椎、颈夹脊',m:'深刺，针感传上肢'}],
+   op:'颈部穴位宜坐位；风池针尖向鼻尖；颈夹脊直刺0.5~1寸，勿深刺伤脊髓。',
+   note:'脊髓型颈椎病颈部不宜强力推拿；伴上肢麻木建议明确诊断。'},
+  {id:'lbp',name:'腰痛',sub:'急慢性腰痛·腰肌劳损·坐骨神经痛',icon:'🔥',bg:'#FFFAF0',cat:'pain',
+   etio:'"腰为肾之府"，肾虚为内因；风寒湿邪、闪挫外伤为外因。',
+   main:['肾俞BL23','大肠俞BL25','委中BL40','腰阳关GV4','阿是穴'],
+   var:[{t:'急性腰扭伤',p:'后溪SI3、腰痛点EX-UE7',m:'强泻，运动针法'},{t:'肾虚腰痛',p:'命门GV4、太溪KI3',m:'补法加艾灸'},{t:'坐骨神经痛',p:'环跳GB30、阳陵泉GB34、绝骨GB39',m:'针感须达足部'},{t:'寒湿腰痛',p:'腰部诸穴',m:'温灸或火罐'}],
+   op:'委中可刺络放血后拔罐；环跳深刺3~3.5寸，针感须达足部。',
+   note:'合并马尾神经损伤（大小便失禁）须手术评估。'},
+  {id:'kn',name:'膝关节痛',sub:'膝骨关节炎·膝部损伤',icon:'🦵',bg:'#F0FFF4',cat:'pain',
+   etio:'肝肾不足、筋骨失养为内因；风寒湿痹、外伤瘀血为外因。膝为"筋之府"。',
+   main:['犊鼻ST35','内膝眼','阳陵泉GB34','阴陵泉SP9','鹤顶'],
+   var:[{t:'风寒湿痹',p:'足三里ST36、血海SP10',m:'针刺加温灸'},{t:'肝肾不足',p:'肾俞BL23、太溪KI3',m:'补法'},{t:'瘀血阻络',p:'膈俞BL17、阿是穴',m:'刺络拔罐'}],
+   op:'犊鼻、内膝眼向关节腔斜刺，可接电针；针后加温灸或热敷。',
+   note:'关节积液明显时先处理积液；严重骨关节炎针灸为辅助，不替代手术评估。'},
+  {id:'ga',name:'胃痛',sub:'胃脘痛·消化不良·胃炎',icon:'🫃',bg:'#FFFAF0',cat:'internal',
+   etio:'饮食不节、情志不和、脾胃虚弱，胃气郁滞，不通则痛。',
+   main:['中脘CV12','足三里ST36','内关PC6','公孙SP4'],
+   var:[{t:'寒邪犯胃',p:'中脘、神阙CV8艾灸',m:'温针灸'},{t:'饮食伤胃',p:'天枢ST25、梁门ST21',m:'泻法'},{t:'肝气犯胃',p:'太冲LV3、期门LV14',m:'泻法'},{t:'脾胃虚寒',p:'脾俞BL20、胃俞BL21',m:'补法加灸'}],
+   op:'中脘直刺1~1.5寸；公孙+内关为八脉交会对穴，合用效佳。',
+   note:'急性胃痛须排除急腹症；溃疡出血期禁灸腹部。'},
+  {id:'dep',name:'郁证',sub:'情志抑郁·焦虑·神经官能症',icon:'🧠',bg:'#FAF5FF',cat:'neuro',
+   etio:'情志不舒，肝失疏泄，气机郁滞；日久心神失养、痰气交阻。',
+   main:['内关PC6','神门HT7','太冲LV3','百会GV20','印堂'],
+   var:[{t:'肝气郁结',p:'膻中CV17、期门LV14',m:'泻法，理气解郁'},{t:'气郁化火',p:'行间LV2、大陵PC7',m:'泻法，清泄肝火'},{t:'心脾两虚',p:'心俞BL15、脾俞BL20',m:'补法'},{t:'痰气互结',p:'丰隆ST40、天突CV22',m:'泻法'}],
+   op:'头部穴位小幅度高频率捻转；印堂提捏进针平刺向鼻尖0.5~1寸。',
+   note:'重度抑郁须配合心理治疗和精神科评估，针灸为辅助。'},
+  {id:'fp',name:'面瘫',sub:'贝尔面瘫·周围性面瘫',icon:'😶',bg:'#FFFFF0',cat:'neuro',
+   etio:'风寒或风热侵袭面部阳明、少阳经络，经筋失养，纵缓不收。',
+   main:['地仓ST4','颊车ST6','阳白GB14','四白ST2','翳风SJ17','合谷LI4对侧'],
+   var:[{t:'急性期1~7天',p:'主穴轻刺激',m:'勿强行矫正'},{t:'恢复期1~4周',p:'加牵正、颧髎SI18',m:'可接电针'},{t:'后遗症期',p:'加膈俞、足三里',m:'补法+温灸'},{t:'风寒型',p:'风池GB20、外关SJ5',m:'加灸翳风'}],
+   op:'地仓透颊车；合谷取健侧；翳风可重刺。',
+   note:'急性期不宜过强刺激；中枢性面瘫处理原则不同，须区别。'},
+  {id:'ht',name:'高血压',sub:'原发性高血压辅助治疗',icon:'❤️',bg:'#FFF5F7',cat:'internal',
+   etio:'肝阳上亢最常见，亦见阴虚阳亢、痰湿壅盛、肾精不足。',
+   main:['百会GV20','风池GB20','太冲LV3','太溪KI3','曲池LI11'],
+   var:[{t:'肝阳上亢',p:'行间LV2、侠溪GB43',m:'泻法'},{t:'阴虚阳亢',p:'肾俞BL23、三阴交SP6',m:'补肾阴'},{t:'痰湿壅盛',p:'丰隆ST40、中脘CV12',m:'泻法'}],
+   op:'百会平刺；风池针尖略向下；曲池、太冲均泻法。可配耳针降压沟。',
+   note:'⚠️ 针灸为辅助，不可替代降压药；血压>180/120mmHg先药物控制。'},
+  {id:'rh',name:'鼻炎',sub:'过敏性鼻炎·慢性鼻炎',icon:'👃',bg:'#EBF8FF',cat:'internal',
+   etio:'肺气虚寒，卫表不固，风寒湿邪侵袭鼻窍；或脾虚湿浊上泛。',
+   main:['迎香LI20','印堂','合谷LI4','肺俞BL13','脾俞BL20'],
+   var:[{t:'过敏性（肺虚寒）',p:'足三里ST36、灸神阙',m:'补法加灸，温肺固表'},{t:'风热型',p:'大椎GV14、曲池LI11',m:'泻法'},{t:'湿浊上泛',p:'丰隆ST40、阴陵泉SP9',m:'泻法'}],
+   op:'迎香沿鼻翼向上斜刺0.3~0.5寸强刺激；三伏天灸效果佳。',
+   note:'过敏性鼻炎建议连续2~3个疗程；三伏天灸可降低复发率。'},
+  {id:'dy',name:'痛经',sub:'原发性痛经·行经腹痛',icon:'🌸',bg:'#FFF5F7',cat:'internal',
+   etio:'寒凝血瘀最常见，亦见气滞血瘀、气血虚弱。"不通则痛"。',
+   main:['三阴交SP6','关元CV4','气海CV6','次髎BL32','地机SP8'],
+   var:[{t:'寒凝血瘀',p:'关元、中极CV3（温针灸）',m:'温经散寒活血'},{t:'气滞血瘀',p:'太冲LV3、膈俞BL17',m:'泻法，理气活血'},{t:'气血虚弱',p:'足三里ST36、脾俞BL20',m:'补法加灸'}],
+   op:'经前3~5天开始，至月经来潮缓解。次髎深刺，针感达会阴效佳。',
+   note:'继发性痛经需妇科检查；⚠️三阴交孕妇禁针。'},
+  {id:'st',name:'中风后遗症',sub:'偏瘫·失语·吞咽困难',icon:'🧬',bg:'#E8F4F8',cat:'neuro',
+   etio:'脑脉痹阻或血溢脑络，脑神受损、经络失通，形成半身不遂等后遗症。',
+   main:['百会GV20','肩髃LI15','曲池LI11','足三里ST36','三阴交SP6','太冲LV3'],
+   var:[{t:'上肢不遂',p:'肩髃、曲池、手三里、合谷',m:'阳经为主，强刺激'},{t:'下肢不遂',p:'环跳GB30、阳陵泉GB34、足三里',m:'阳经为主'},{t:'口眼歪斜',p:'地仓ST4、颊车ST6、阳白',m:'面部透刺'},{t:'失语',p:'廉泉CV23、哑门GV15',m:'强刺激哑门（斜向下颌刺入）'}],
+   op:'发病2周后稳定期开始。"治痿独取阳明"为原则，可配头皮针（运动区）。',
+   note:'脑出血急性期不宜针灸；血压不稳定时禁止；配合康复训练效果最佳。'},
+];
+
+let curCat='all';
+
+function renderCards(list){
+  const g=document.getElementById('cgrid');
+  if(!list.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-3)"><div style="font-size:2.5rem;margin-bottom:.75rem">🔍</div>没有找到相关病症</div>';return;}
+  g.innerHTML=list.map(c=>`
+  <div class="condition-card" onclick="openMo('${c.id}')">
+    <div class="cc-head">
+      <div class="cc-icon" style="background:${c.bg}">${c.icon}</div>
+      <div><div class="cc-name">${c.name}</div><div class="cc-sub">${c.sub}</div></div>
+    </div>
+    <div class="cc-body">
+      <div class="cc-divider"></div>
+      <div class="presc-title">主穴处方</div>
+      <div class="presc-pts">${c.main.map(p=>`<span class="pp prim">${p}</span>`).join('')}</div>
+      <div class="note-box"><strong>病因：</strong>${c.etio.slice(0,55)}… <span style="color:var(--coral);font-size:.75rem">点击查看完整方案 →</span></div>
+    </div>
+  </div>`).join('');
+}
+
+function openMo(id){
+  const c=CD.find(x=>x.id===id);if(!c)return;
+  document.getElementById('m-ico').textContent=c.icon;
+  document.getElementById('m-ico').style.background=c.bg;
+  document.getElementById('m-name').textContent=c.name;
+  document.getElementById('m-sub').textContent=c.sub;
+  document.getElementById('m-etio').textContent=c.etio;
+  document.getElementById('m-op').textContent=c.op;
+  document.getElementById('m-note').textContent=c.note;
+  document.getElementById('m-main').innerHTML=`<div class="presc-pts">${c.main.map(p=>`<span class="pp prim" onclick="goAcu('${p}')">${p}</span>`).join('')}</div>`;
+  if(c.var&&c.var.length){
+    document.getElementById('m-var-s').style.display='';
+    document.getElementById('m-var').innerHTML=`<table class="vt"><thead><tr><th>证型</th><th>加减穴位</th><th>操作</th></tr></thead><tbody>${c.var.map(v=>`<tr><td><strong>${v.t}</strong></td><td>${v.p}</td><td style="font-size:.78rem;color:var(--text-3)">${v.m}</td></tr>`).join('')}</tbody></table>`;
+  }else{document.getElementById('m-var-s').style.display='none';}
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMo(e){if(e.target===document.getElementById('mo'))closeMoBtn();}
+function closeMoBtn(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
+function goAcu(label){closeMoBtn();const code=label.match(/([A-Z]{1,3}\d+)/)?.[1]||'';window.location.href='acupoints.html'+(code?'?code='+code:'');}
+
+document.getElementById('catTabs').addEventListener('click',e=>{
+  const b=e.target.closest('.cat-tab');if(!b)return;
+  curCat=b.dataset.cat;
+  document.querySelectorAll('.cat-tab').forEach(x=>x.classList.toggle('active',x===b));
+  applyF();
+});
+document.getElementById('ssearch').addEventListener('input',function(){applyF(this.value.trim());});
+function applyF(q=''){
+  let l=[...CD];
+  if(curCat!=='all')l=l.filter(c=>c.cat===curCat);
+  if(q){const v=q.toLowerCase();l=l.filter(c=>c.name.includes(v)||c.sub.includes(v)||c.etio.includes(v)||c.main.some(p=>p.includes(v)));}
+  renderCards(l);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMoBtn();});
+renderCards(CD);
+</script>
+</body>
+</html>

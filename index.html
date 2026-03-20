@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>针灸入门 · 从零开始学针灸</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      background: linear-gradient(135deg, var(--teal) 0%, #0F2535 60%, #1A3A4A 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .hero-deco {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    /* Decorative circles */
+    .hero-deco::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,97,74,0.15) 0%, transparent 70%);
+      right: -100px; top: -100px;
+    }
+    .hero-deco::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,143,168,0.2) 0%, transparent 70%);
+      left: -50px; bottom: -50px;
+    }
+    /* Meridian lines decoration */
+    .hero-lines {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .hero-lines svg { width: 100%; height: 100%; opacity: 0.06; }
+
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative; z-index: 2;
+      width: 100%;
+    }
+    .hero-text { color: var(--white); }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--coral-light);
+      background: rgba(232,97,74,0.15);
+      border: 1px solid rgba(232,97,74,0.3);
+      border-radius: 20px; padding: .3rem 1rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .6s var(--ease) both;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      animation: fadeUp .6s .1s var(--ease) both;
+    }
+    .hero-title span { color: var(--coral-light); }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 460px;
+      animation: fadeUp .6s .2s var(--ease) both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp .6s .3s var(--ease) both;
+    }
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 3rem;
+      animation: fadeUp .6s .4s var(--ease) both;
+    }
+    .hero-stat-num {
+      font-family: var(--font-serif);
+      font-size: 2rem; font-weight: 700;
+      color: var(--coral-light); line-height: 1;
+    }
+    .hero-stat-label { font-size: .78rem; color: rgba(255,255,255,0.5); margin-top: .25rem; }
+
+    /* Hero right: floating card preview */
+    .hero-preview {
+      animation: fadeUp .7s .25s var(--ease) both;
+    }
+    .hero-card-stack { position: relative; height: 340px; }
+    .hcs-card {
+      position: absolute;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      color: var(--white);
+    }
+    .hcs-card-1 {
+      width: 240px; bottom: 0; left: 0;
+      animation: float 5s ease-in-out 1s infinite;
+    }
+    .hcs-card-2 {
+      width: 260px; top: 0; right: 0;
+      animation: float 5s ease-in-out infinite;
+    }
+    .hcs-card-3 {
+      width: 200px; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      animation: float 5s ease-in-out .5s infinite;
+    }
+    .hcs-label { font-size: .7rem; color: rgba(255,255,255,0.5); letter-spacing: .1em; margin-bottom: .5rem; }
+    .hcs-name {
+      font-family: var(--font-serif);
+      font-size: 1.5rem; font-weight: 700; margin-bottom: .3rem;
+    }
+    .hcs-sub { font-size: .8rem; color: rgba(255,255,255,0.65); }
+    .hcs-dots { display: flex; gap: .35rem; margin-top: .8rem; }
+    .hcs-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); opacity: .5; }
+    .hcs-dot.active { opacity: 1; }
+    .hcs-meridian-bar {
+      height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--coral) 0%, var(--teal-light) 100%);
+      margin-top: .8rem;
+    }
+    .hcs-num {
+      font-family: var(--font-serif);
+      font-size: 2.5rem; font-weight: 700; color: var(--coral-light); line-height: 1;
+    }
+    .hcs-progress {
+      margin-top: .5rem; height: 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.15);
+    }
+    .hcs-progress-fill {
+      height: 100%; border-radius: 3px; width: 65%;
+      background: linear-gradient(90deg, var(--coral-light), var(--coral));
+    }
+
+    /* ── PATH SECTION ── */
+    .path-section {
+      padding: 5rem 0;
+    }
+    .path-steps {
+      display: flex;
+      gap: 0;
+      position: relative;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+    }
+    .path-steps::-webkit-scrollbar { display: none; }
+    .path-step {
+      flex: 1;
+      min-width: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      text-align: center;
+    }
+    /* connecting line */
+    .path-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(50% + 28px);
+      right: calc(-50% + 28px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--coral), var(--teal-light));
+      z-index: 0;
+    }
+    .path-step-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid var(--warm-gray);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text-3);
+      position: relative; z-index: 1;
+      transition: all .3s var(--ease-spring);
+      box-shadow: var(--shadow-sm);
+    }
+    .path-step.done .path-step-num {
+      background: var(--coral); color: var(--white);
+      border-color: var(--coral);
+      box-shadow: var(--shadow-coral);
+    }
+    .path-step.current .path-step-num {
+      background: var(--teal); color: var(--white);
+      border-color: var(--teal);
+      transform: scale(1.1);
+    }
+    .path-step-icon { font-size: 1.3rem; margin-bottom: .4rem; }
+    .path-step-label {
+      font-family: var(--font-serif);
+      font-size: .88rem; font-weight: 700;
+      color: var(--teal);
+      margin-top: .7rem; margin-bottom: .25rem;
+    }
+    .path-step-desc { font-size: .73rem; color: var(--text-3); max-width: 110px; }
+    .path-step a {
+      display: block; margin-top: .6rem;
+      font-size: .73rem; color: var(--coral); font-weight: 600;
+    }
+    .path-step a:hover { text-decoration: underline; }
+
+    /* ── MODULE CARDS ── */
+    .modules-section { padding: 0 0 5rem; }
+    .module-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--warm-gray);
+      box-shadow: var(--shadow-sm);
+      padding: 1.75rem;
+      transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease);
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      gap: 1rem;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .module-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .module-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .module-icon {
+      width: 52px; height: 52px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .module-ring { flex-shrink: 0; }
+    .module-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem; font-weight: 700; color: var(--teal);
+    }
+    .module-desc { font-size: .84rem; color: var(--text-2); line-height: 1.75; flex: 1; }
+    .module-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto;
+    }
+    .module-tag { font-size: .73rem; color: var(--text-3); }
+    .module-link {
+      font-size: .82rem; font-weight: 700; color: var(--coral);
+      display: flex; align-items: center; gap: .3rem;
+      transition: gap .2s;
+    }
+    .module-card:hover .module-link { gap: .55rem; }
+
+    /* Module color themes */
+    .mc-red  .module-card::before { background: var(--coral); }
+    .mc-red  .module-icon { background: var(--coral-pale); }
+    .mc-blue .module-card::before { background: var(--teal-light); }
+    .mc-blue .module-icon { background: var(--teal-pale); }
+    .mc-green .module-card::before { background: #48BB78; }
+    .mc-green .module-icon { background: #F0FFF4; }
+    .mc-purple .module-card::before { background: #805AD5; }
+    .mc-purple .module-icon { background: #FAF5FF; }
+    .mc-orange .module-card::before { background: #ED8936; }
+    .mc-orange .module-icon { background: #FFFAF0; }
+    .mc-pink .module-card::before { background: #D53F8C; }
+    .mc-pink .module-icon { background: #FFF5F7; }
+
+    /* ── TODAY CARD ── */
+    .today-section { padding: 0 0 5rem; }
+    .today-card {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      color: var(--white);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .today-card::before {
+      content: '';
+      position: absolute; right: -30px; top: -30px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(232,97,74,0.15);
+    }
+    .today-eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--coral-light); margin-bottom: .75rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .today-eyebrow::before {
+      content: '';
+      width: 20px; height: 2px; background: var(--coral-light); border-radius: 1px;
+    }
+    .today-name {
+      font-family: var(--font-serif);
+      font-size: 2.8rem; font-weight: 700; line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .today-pinyin { font-size: .85rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem; letter-spacing: .1em; }
+    .today-info { display: flex; flex-direction: column; gap: .5rem; }
+    .today-info-row { display: flex; gap: .75rem; font-size: .88rem; }
+    .today-info-key { color: rgba(255,255,255,0.5); min-width: 44px; }
+    .today-info-val { color: rgba(255,255,255,0.9); }
+    .today-right { text-align: center; position: relative; z-index: 1; }
+    .today-dot {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.2);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: .62rem; color: rgba(255,255,255,0.7);
+      margin: 0 auto 1rem;
+      background: rgba(255,255,255,0.07);
+    }
+    .today-dot-char { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--white); line-height: 1; }
+    .today-actions { display: flex; flex-direction: column; gap: .5rem; }
+
+    /* ── QUICK STATS BAR ── */
+    .stats-bar {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--warm-gray);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: hidden;
+      margin-bottom: 4rem;
+    }
+    .stat-item {
+      padding: 1.5rem;
+      text-align: center;
+      border-right: 1px solid var(--warm-gray);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 2rem; font-weight: 700; color: var(--coral); line-height: 1;
+    }
+    .stat-label { font-size: .78rem; color: var(--text-3); margin-top: .35rem; }
+
+    /* Progress ring mini */
+    .mini-ring { position: relative; display: inline-block; }
+    .mini-ring svg { transform: rotate(-90deg); }
+    .mini-ring-label {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; font-weight: 700; color: var(--teal);
+    }
+
+    @media(max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-desc { max-width: 100%; }
+      .hero-btns { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-preview { display: none; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .today-card { grid-template-columns: 1fr; }
+      .today-right { display: flex; align-items: center; gap: 1rem; justify-content: flex-start; }
+      .today-dot { margin: 0; }
+    }
+    @media(max-width: 600px) {
+      .path-step-desc { display: none; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-dot"></span>针灸入门
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">🏠 <span class="nav-txt">首页</span></a></li>
+      <li><a href="theory.html">📖 <span class="nav-txt">基础理论</span></a></li>
+      <li><a href="acupoints.html">📍 <span class="nav-txt">穴位图谱</span></a></li>
+      <li><a href="treatment.html">💊 <span class="nav-txt">病症治疗</span></a></li>
+      <li><a href="anatomy.html">🫀 <span class="nav-txt">体表解剖</span></a></li>
+      <li><a href="history.html">📜 <span class="nav-txt">历史文化</span></a></li>
+      <li><a href="safety.html">🛡️ <span class="nav-txt">安全禁忌</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-lines">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <path d="M200,100 Q400,200 300,400 Q200,600 400,700" fill="none" stroke="white" stroke-width="1.5"/>
+      <path d="M600,50 Q700,150 650,350 Q600,500 700,750" fill="none" stroke="white" stroke-width="1.5"/>
+      <path d="M900,100 Q1000,300 950,500 Q900,650 1050,750" fill="none" stroke="white" stroke-width="1.5"/>
+      <path d="M100,400 Q300,350 500,400 Q700,450 900,380 Q1100,320 1200,380" fill="none" stroke="white" stroke-width="1"/>
+      <circle cx="300" cy="400" r="4" fill="white"/>
+      <circle cx="650" cy="350" r="4" fill="white"/>
+      <circle cx="950" cy="500" r="4" fill="white"/>
+      <circle cx="500" cy="400" r="3" fill="white"/>
+      <circle cx="900" cy="380" r="3" fill="white"/>
+    </svg>
+  </div>
+  <div class="hero-deco"></div>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">✦ 0基础 · 系统学习 · 中医针灸</div>
+      <h1 class="hero-title">
+        从零开始<br>学<span>针灸</span>
+      </h1>
+      <p class="hero-desc">
+        系统讲解经络理论、腧穴定位、针刺手法与临床应用。无论你是中医爱好者、保健从业者还是在校学生，都能在这里找到适合自己的学习路径。
+      </p>
+      <div class="hero-btns">
+        <a href="theory.html" class="btn btn-primary btn-lg">开始学习 →</a>
+        <a href="acupoints.html" class="btn btn-ghost btn-lg">查询穴位</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">361</div>
+          <div class="hero-stat-label">标准穴位</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">14</div>
+          <div class="hero-stat-label">经脉体系</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-label">学习模块</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-preview">
+      <div class="hero-card-stack">
+        <div class="hcs-card hcs-card-1">
+          <div class="hcs-label">穴位 ACUPOINT</div>
+          <div class="hcs-name">足三里</div>
+          <div class="hcs-sub">足阳明胃经 · ST36</div>
+          <div class="hcs-meridian-bar"></div>
+          <div class="hcs-dots">
+            <div class="hcs-dot active"></div>
+            <div class="hcs-dot active"></div>
+            <div class="hcs-dot active"></div>
+            <div class="hcs-dot"></div>
+          </div>
+        </div>
+        <div class="hcs-card hcs-card-2">
+          <div class="hcs-label">今日学习进度</div>
+          <div class="hcs-num">65%</div>
+          <div class="hcs-sub" style="margin:.3rem 0 .6rem">经络系统 · 第三章</div>
+          <div class="hcs-progress"><div class="hcs-progress-fill"></div></div>
+        </div>
+        <div class="hcs-card hcs-card-3">
+          <div class="hcs-label">十四经脉</div>
+          <div class="hcs-name" style="font-size:1.2rem">手太阴肺经</div>
+          <div class="hcs-sub">起于中府 · 止于少商</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS BAR ══ -->
+<div class="page-wrap">
+  <div class="stats-bar" style="margin-top:-2rem; position:relative; z-index:10;">
+    <div class="stat-item">
+      <div class="stat-num" id="stat-done">0</div>
+      <div class="stat-label">已完成模块</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-acu">0</div>
+      <div class="stat-label">已学习穴位</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-quiz">0</div>
+      <div class="stat-label">测验通过次数</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat-days">1</div>
+      <div class="stat-label">学习天数</div>
+    </div>
+  </div>
+
+  <!-- ══ LEARNING PATH ══ -->
+  <section class="path-section" style="padding-top:1rem">
+    <div class="section-title">推荐学习路径</div>
+    <p style="font-size:.88rem;color:var(--text-3);margin-bottom:2rem">按照这个顺序学习，循序渐进效果最好</p>
+    <div class="path-steps" id="pathSteps">
+      <div class="path-step" data-module="history">
+        <div class="path-step-num">①</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">📜</div>
+          <div class="path-step-label">历史文化</div>
+          <div class="path-step-desc">了解针灸的起源与发展</div>
+          <a href="history.html">进入学习 →</a>
+        </div>
+      </div>
+      <div class="path-step" data-module="theory">
+        <div class="path-step-num">②</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">📖</div>
+          <div class="path-step-label">基础理论</div>
+          <div class="path-step-desc">经络、腧穴、针法体系</div>
+          <a href="theory.html">进入学习 →</a>
+        </div>
+      </div>
+      <div class="path-step" data-module="anatomy">
+        <div class="path-step-num">③</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">🫀</div>
+          <div class="path-step-label">体表解剖</div>
+          <div class="path-step-desc">人体标志与解剖结构</div>
+          <a href="anatomy.html">进入学习 →</a>
+        </div>
+      </div>
+      <div class="path-step" data-module="acupoints">
+        <div class="path-step-num">④</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">📍</div>
+          <div class="path-step-label">穴位图谱</div>
+          <div class="path-step-desc">十四经脉300+穴位</div>
+          <a href="acupoints.html">进入学习 →</a>
+        </div>
+      </div>
+      <div class="path-step" data-module="treatment">
+        <div class="path-step-num">⑤</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">💊</div>
+          <div class="path-step-label">病症治疗</div>
+          <div class="path-step-desc">常见病症配穴方案</div>
+          <a href="treatment.html">进入学习 →</a>
+        </div>
+      </div>
+      <div class="path-step" data-module="safety">
+        <div class="path-step-num">⑥</div>
+        <div style="margin-top:.75rem">
+          <div class="path-step-icon">🛡️</div>
+          <div class="path-step-label">安全禁忌</div>
+          <div class="path-step-desc">禁忌症与意外处理</div>
+          <a href="safety.html">进入学习 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MODULE CARDS ══ -->
+  <section class="modules-section">
+    <div class="section-title">全部学习模块</div>
+    <div class="card-grid" id="moduleGrid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+
+      <div class="mc-red">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">📖</div>
+            <div class="mini-ring" id="ring-theory">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle class="ring-bg" cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle class="ring-fill" cx="26" cy="26" r="20" fill="none" stroke="#E8614A" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">针灸基础理论</div>
+          <div class="module-desc">系统学习经络系统（十二经脉+奇经八脉）、腧穴分类、针刺手法（补泻、行针、得气）等核心理论。4个主题章节，含互动测验。</div>
+          <div class="module-footer">
+            <div class="module-tag">📝 4章 · 20+知识点</div>
+            <a href="theory.html" class="module-link">进入 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-blue">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">📍</div>
+            <div class="mini-ring" id="ring-acupoints">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#4A8FA8" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">穴位图谱与查询</div>
+          <div class="module-desc">十四经脉完整穴位数据库，SVG人体图交互导航，支持穴名/拼音/主治关键词搜索。收录361个标准穴位的定位、主治与速记。</div>
+          <div class="module-footer">
+            <div class="module-tag">🗺️ 14经 · 361穴位</div>
+            <a href="acupoints.html" class="module-link">进入 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-green">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">💊</div>
+            <div class="mini-ring" id="ring-treatment">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#48BB78" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">常见病症治疗</div>
+          <div class="module-desc">头痛、失眠、颈肩痛、腰痛、胃痛等10+常见病症的针灸治疗方案，含配穴分析、操作要点与注意事项。</div>
+          <div class="module-footer">
+            <div class="module-tag">🏥 10+病症</div>
+            <a href="treatment.html" class="module-link">即将上线</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-purple">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">🫀</div>
+            <div class="mini-ring" id="ring-anatomy">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#805AD5" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">体表标志与解剖</div>
+          <div class="module-desc">针灸解剖学基础，8大体表区域的骨性标志、肌性标志识别，经脉循行处的神经血管解剖，SVG人体图交互导航。</div>
+          <div class="module-footer">
+            <div class="module-tag">🦴 8区域 · 神经血管</div>
+            <a href="anatomy.html" class="module-link">即将上线</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-orange">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">📜</div>
+            <div class="mini-ring" id="ring-history">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#ED8936" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">针灸历史与文化</div>
+          <div class="module-desc">从石器时代砭石到现代针灸，四千年发展历程。经典著作解读，中外针灸传播史，现代科学研究进展。</div>
+          <div class="module-footer">
+            <div class="module-tag">📅 4000年历史</div>
+            <a href="history.html" class="module-link">即将上线</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mc-pink">
+        <div class="module-card">
+          <div class="module-card-head">
+            <div class="module-icon">🛡️</div>
+            <div class="mini-ring" id="ring-safety">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#E4E4DC" stroke-width="4"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#D53F8C" stroke-width="4"
+                  stroke-dasharray="125.66" stroke-dashoffset="125.66" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+              </svg>
+              <div class="mini-ring-label">0%</div>
+            </div>
+          </div>
+          <div class="module-title">安全规范与禁忌</div>
+          <div class="module-desc">针灸禁忌穴位、禁忌病证、特殊人群注意事项，常见针刺意外（晕针、滞针、断针）的处理方法，安全操作规范。</div>
+          <div class="module-footer">
+            <div class="module-tag">⚠️ 安全操作规范</div>
+            <a href="safety.html" class="module-link">即将上线</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ TODAY ACUPOINT ══ -->
+  <section class="today-section">
+    <div class="section-title">今日推荐穴位</div>
+    <div class="today-card" id="todayCard">
+      <div class="today-left">
+        <div class="today-eyebrow">每日一穴</div>
+        <div class="today-name" id="today-name">足三里</div>
+        <div class="today-pinyin" id="today-pinyin">Zú Sān Lǐ · ST36</div>
+        <div class="today-info">
+          <div class="today-info-row">
+            <span class="today-info-key">归经</span>
+            <span class="today-info-val" id="today-meridian">足阳明胃经</span>
+          </div>
+          <div class="today-info-row">
+            <span class="today-info-key">定位</span>
+            <span class="today-info-val" id="today-location">外膝眼下3寸，胫骨前嵴外一横指处</span>
+          </div>
+          <div class="today-info-row">
+            <span class="today-info-key">主治</span>
+            <span class="today-info-val" id="today-treat">胃痛、腹胀、呕吐、泄泻；下肢痿痹；强壮保健要穴</span>
+          </div>
+          <div class="today-info-row">
+            <span class="today-info-key">速记</span>
+            <span class="today-info-val" style="color:var(--coral-light)" id="today-memo">「常灸足三里，胜吃老母鸡」</span>
+          </div>
+        </div>
+      </div>
+      <div class="today-right">
+        <div class="today-dot">
+          <div class="today-dot-char" id="today-char">里</div>
+          <div style="font-size:.58rem;margin-top:.2rem;color:rgba(255,255,255,0.5)">ST36</div>
+        </div>
+        <div class="today-actions">
+          <a href="acupoints.html" class="btn btn-ghost btn-sm">查看详情 →</a>
+          <button class="btn btn-ghost btn-sm" onclick="nextTodayAcu()">换一个 ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-wrap -->
+
+<footer class="site-footer">
+  <strong>针灸入门</strong> · 系统学习中医针灸 · 内容仅供学习参考，不构成医疗建议
+</footer>
+
+<script src="assets/acupoints-data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+// ── Today Acupoint ──
+const todayPool = [
+  { name:'足三里', py:'Zú Sān Lǐ · ST36', char:'里', meridian:'足阳明胃经',
+    loc:'外膝眼下3寸，胫骨前嵴外一横指', treat:'胃痛腹胀、呕吐泄泻；强壮保健要穴',
+    memo:'「常灸足三里，胜吃老母鸡」' },
+  { name:'合谷', py:'Hé Gǔ · LI4', char:'谷', meridian:'手阳明大肠经',
+    loc:'第1、2掌骨间，近第2掌骨中点', treat:'头面五官疾患；发汗解表；止痛要穴',
+    memo:'「面口合谷收」——头面疾患首选' },
+  { name:'内关', py:'Nèi Guān · PC6', char:'关', meridian:'手厥阴心包经',
+    loc:'腕横纹上2寸，两腱之间', treat:'心悸、失眠、恶心呕吐；胃心胸疾患',
+    memo:'晕车首选，心胸胃三联络' },
+  { name:'太冲', py:'Tài Chōng · LV3', char:'冲', meridian:'足厥阴肝经',
+    loc:'足背，第1、2跖骨结合部前方凹陷', treat:'肝胆疾患；头痛眩晕；情志疾病',
+    memo:'「四关穴」之一，肝经原穴' },
+  { name:'三阴交', py:'Sān Yīn Jiāo · SP6', char:'交', meridian:'足太阴脾经',
+    loc:'内踝高点上3寸，胫骨内侧缘后方', treat:'脾胃、肝肾、妇科疾患；安神',
+    memo:'脾肝肾三经交汇，妇科要穴（孕妇禁针）' },
+  { name:'百会', py:'Bǎi Huì · GV20', char:'会', meridian:'督脉',
+    loc:'两耳尖连线与前后正中线交点', treat:'头痛眩晕；神志疾患；脏器下垂',
+    memo:'诸阳之会，升阳举陷要穴' },
+  { name:'风池', py:'Fēng Chí · GB20', char:'池', meridian:'足少阳胆经',
+    loc:'枕骨下，斜方肌与胸锁乳突肌之间凹陷', treat:'头痛、颈项痛；感冒、目疾',
+    memo:'「风从颈入，池能驱风」' },
+  { name:'委中', py:'Wěi Zhōng · BL40', char:'中', meridian:'足太阳膀胱经',
+    loc:'腘横纹中点，腘动脉搏动处旁', treat:'腰背痛；下肢痿痹；小便不利',
+    memo:'「腰背委中求」' },
+];
+let todayIdx = 0;
+function showTodayAcu(idx) {
+  const a = todayPool[idx % todayPool.length];
+  document.getElementById('today-name').textContent     = a.name;
+  document.getElementById('today-pinyin').textContent   = a.py;
+  document.getElementById('today-char').textContent     = a.char;
+  document.getElementById('today-meridian').textContent = a.meridian;
+  document.getElementById('today-location').textContent = a.loc;
+  document.getElementById('today-treat').textContent    = a.treat;
+  document.getElementById('today-memo').textContent     = a.memo;
+}
+function nextTodayAcu() { todayIdx++; showTodayAcu(todayIdx); }
+
+// Pick based on date for consistency within a day
+(function() {
+  const d = new Date();
+  todayIdx = (d.getDate() + d.getMonth() * 31) % todayPool.length;
+  showTodayAcu(todayIdx);
+})();
+
+// ── Load progress from localStorage ──
+(function() {
+  const prog = JSON.parse(localStorage.getItem('acuProgress') || '{}');
+  const done = Object.values(prog).filter(v => v.done).length;
+  document.getElementById('stat-done').textContent  = done;
+  document.getElementById('stat-acu').textContent   = prog.acuLearned || 0;
+  document.getElementById('stat-quiz').textContent  = prog.quizPassed || 0;
+  document.getElementById('stat-days').textContent  = prog.days || 1;
+
+  // Update path step states
+  const steps = document.querySelectorAll('.path-step');
+  steps.forEach(s => {
+    const m = s.dataset.module;
+    if (prog[m]?.done) s.classList.add('done');
+  });
+
+  // Update ring fills
+  const rings = {
+    theory: prog.theory?.pct || 0,
+    acupoints: prog.acupoints?.pct || 0,
+    treatment: prog.treatment?.pct || 0,
+    anatomy: prog.anatomy?.pct || 0,
+    history: prog.history?.pct || 0,
+    safety: prog.safety?.pct || 0,
+  };
+  Object.entries(rings).forEach(([key, pct]) => {
+    const wrap = document.getElementById('ring-' + key);
+    if (!wrap) return;
+    const fill = wrap.querySelector('circle:last-child');
+    const label = wrap.querySelector('.mini-ring-label');
+    const circumference = 125.66;
+    const offset = circumference - (pct / 100) * circumference;
+    fill.style.strokeDashoffset = offset;
+    label.textContent = pct + '%';
+  });
+})();
+</script>
+</body>
+</html>
