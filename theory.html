@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基础理论 · 针灸入门</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+  /* ── LAYOUT ── */
+  .theory-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .theory-toc {
+    position: sticky; top: 80px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--warm-gray);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+    height: fit-content;
+  }
+  .toc-title {
+    padding: .5rem 1.1rem .75rem;
+    font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-3);
+    border-bottom: 1px solid var(--warm-gray); margin-bottom: .5rem;
+  }
+  .toc-item {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .55rem 1.1rem; cursor: pointer;
+    font-size: .83rem; color: var(--text-2);
+    border-left: 3px solid transparent;
+    transition: all .15s;
+  }
+  .toc-item:hover { background: var(--cream2); color: var(--text-1); }
+  .toc-item.active {
+    border-left-color: var(--coral); color: var(--coral);
+    background: var(--coral-pale); font-weight: 600;
+  }
+  .toc-done { color: var(--success); font-size: .75rem; margin-left: auto; }
+
+  /* ── CHAPTER ── */
+  .chapter { margin-bottom: 4rem; scroll-margin-top: 80px; }
+  .chapter-hero {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+    border-radius: var(--radius-xl);
+    padding: 2rem 2.5rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .chapter-hero::after {
+    content: attr(data-num);
+    position: absolute; right: 1.5rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-serif);
+    font-size: 5rem; font-weight: 700;
+    color: rgba(255,255,255,0.07);
+    pointer-events: none; line-height: 1;
+  }
+  .chapter-eyebrow {
+    font-size: .72rem; font-weight: 700; letter-spacing: .15em;
+    text-transform: uppercase; color: var(--coral-light);
+    margin-bottom: .6rem;
+  }
+  .chapter-title {
+    font-family: var(--font-serif); font-size: 1.7rem; font-weight: 700;
+    margin-bottom: .5rem; line-height: 1.2;
+  }
+  .chapter-desc { font-size: .92rem; color: rgba(255,255,255,0.72); max-width: 480px; }
+
+  /* ── MERIDIAN TABLE ── */
+  .meridian-table-wrap { overflow-x: auto; margin: 1.25rem 0 1.75rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+  .meridian-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+  .meridian-table th { background: var(--teal); color: rgba(255,255,255,.85); padding: .65rem .9rem; text-align:left; font-family: var(--font-serif); font-weight: 400; font-size: .8rem; letter-spacing: .05em; }
+  .meridian-table td { padding: .58rem .9rem; border-bottom: 1px solid var(--warm-gray); color: var(--text-2); vertical-align: middle; }
+  .meridian-table tr:nth-child(even) td { background: var(--cream2); }
+  .meridian-table tr:hover td { background: var(--coral-pale); }
+  .mer-color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: .4rem; vertical-align: middle; }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    border-radius: var(--radius-md); padding: 1.1rem 1.4rem;
+    margin: 1rem 0 1.5rem; border-left: 4px solid;
+    font-size: .88rem; line-height: 1.85; color: var(--text-2);
+  }
+  .info-box-blue  { background: var(--teal-pale); border-color: var(--teal-light); }
+  .info-box-coral { background: var(--coral-pale); border-color: var(--coral); }
+  .info-box-green { background: #F0FFF4; border-color: #48BB78; }
+  .info-box strong { color: var(--teal); }
+
+  /* ── NEEDLING METHODS CARDS ── */
+  .method-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+  .method-card {
+    background: var(--white); border: 1px solid var(--warm-gray);
+    border-radius: var(--radius-md); padding: 1.2rem;
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--coral);
+  }
+  .method-card-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--coral); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700; margin-bottom: .7rem;
+  }
+  .method-card-title { font-family: var(--font-serif); font-size: .95rem; font-weight: 700; color: var(--teal); margin-bottom: .4rem; }
+  .method-card-desc  { font-size: .82rem; color: var(--text-2); line-height: 1.8; }
+  .method-card-eg    { font-size: .75rem; color: var(--coral); background: var(--coral-pale); border-radius: 4px; padding: .25rem .55rem; margin-top: .6rem; display: inline-block; }
+
+  /* ── ACUPOINT TYPE TABLE ── */
+  .type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: .85rem; margin: 1rem 0 1.5rem; }
+  .type-card {
+    background: var(--white); border: 1px solid var(--warm-gray);
+    border-radius: var(--radius-md); padding: .9rem 1rem;
+    text-align: center; box-shadow: var(--shadow-sm);
+    cursor: pointer; transition: transform .2s var(--ease-spring), box-shadow .2s;
+  }
+  .type-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .type-card-icon  { font-size: 1.6rem; margin-bottom: .4rem; }
+  .type-card-name  { font-family: var(--font-serif); font-size: .95rem; font-weight: 700; color: var(--teal); margin-bottom: .25rem; }
+  .type-card-count { font-size: .72rem; color: var(--coral); font-weight: 700; margin-bottom: .3rem; }
+  .type-card-desc  { font-size: .75rem; color: var(--text-3); line-height: 1.6; }
+
+  /* progress bar */
+  .chapter-progress {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 2rem; font-size: .82rem; color: var(--text-3);
+  }
+  .progress-bar-wrap { flex: 1; height: 6px; background: var(--warm-gray); border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--coral), var(--coral-light)); transition: width .8s var(--ease); }
+
+  @media(max-width: 860px) {
+    .theory-layout { grid-template-columns: 1fr; }
+    .theory-toc { position: static; display: flex; overflow-x: auto; padding: .5rem 0; border-radius: var(--radius-md); }
+    .toc-title { display: none; }
+    .toc-item { flex-shrink: 0; border-left: none; border-bottom: 3px solid transparent; padding: .45rem .9rem; }
+    .toc-item.active { border-bottom-color: var(--coral); border-left-color: transparent; }
+    .chapter-hero::after { display: none; }
+  }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-dot"></span>针灸入门</a>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 <span class="nav-txt">首页</span></a></li>
+      <li><a href="theory.html" class="active">📖 <span class="nav-txt">基础理论</span></a></li>
+      <li><a href="acupoints.html">📍 <span class="nav-txt">穴位图谱</span></a></li>
+      <li><a href="treatment.html">💊 <span class="nav-txt">病症治疗</span></a></li>
+      <li><a href="anatomy.html">🫀 <span class="nav-txt">体表解剖</span></a></li>
+      <li><a href="history.html">📜 <span class="nav-txt">历史文化</span></a></li>
+      <li><a href="safety.html">🛡️ <span class="nav-txt">安全禁忌</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">📖 基础理论</div>
+    <h1>针灸基础理论</h1>
+    <p>系统学习经络系统、腧穴分类、针刺手法，掌握针灸的核心理论框架。</p>
+  </div>
+
+  <div class="chapter-progress">
+    <span>本页进度</span>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pageProgressBar" style="width:0%"></div></div>
+    <span id="pageProgressPct">0%</span>
+  </div>
+
+  <div class="theory-layout">
+    <!-- TOC -->
+    <div class="theory-toc">
+      <div class="toc-title">目录</div>
+      <div class="toc-item active" onclick="scrollToChapter(0)">
+        <span>🌐</span>经络系统<span class="toc-done" id="toc-done-0"></span>
+      </div>
+      <div class="toc-item" onclick="scrollToChapter(1)">
+        <span>📍</span>腧穴分类<span class="toc-done" id="toc-done-1"></span>
+      </div>
+      <div class="toc-item" onclick="scrollToChapter(2)">
+        <span>🪡</span>针刺手法<span class="toc-done" id="toc-done-2"></span>
+      </div>
+      <div class="toc-item" onclick="scrollToChapter(3)">
+        <span>🛡️</span>针灸禁忌<span class="toc-done" id="toc-done-3"></span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="theory-content">
+
+      <!-- ══ CHAPTER 1 ══ -->
+      <div class="chapter" id="chapter-0">
+        <div class="chapter-hero" data-num="壹">
+          <div class="chapter-eyebrow">CHAPTER 01</div>
+          <div class="chapter-title">经络系统</div>
+          <div class="chapter-desc">经络是运行气血、联络脏腑、沟通内外的通道，是针灸理论的核心基础。</div>
+        </div>
+
+        <div class="section-title">什么是经络</div>
+        <div class="info-box info-box-blue">
+          <strong>经络</strong>是经脉和络脉的总称。<strong>经脉</strong>是经络系统的主干，纵行于人体深部；<strong>络脉</strong>是经脉的分支，横行于浅表，网络全身。<br><br>
+          经络的主要功能：<strong>运行气血</strong>（将营养物质输送全身）、<strong>联络脏腑</strong>（内联脏腑，外络肢节）、<strong>感应传导</strong>（传递信息，产生针感）、<strong>调节机能</strong>（平衡阴阳，调节病理状态）。
+        </div>
+
+        <div class="section-title">十二正经</div>
+        <p style="font-size:.88rem;color:var(--text-3);margin-bottom:1rem">十二正经是经络系统的主体，按阴阳属性和循行部位命名</p>
+
+        <div class="meridian-table-wrap">
+          <table class="meridian-table">
+            <thead>
+              <tr><th>经脉</th><th>缩写</th><th>属脏腑</th><th>穴数</th><th>起止</th><th>循行特点</th></tr>
+            </thead>
+            <tbody id="meridianTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="section-title">奇经八脉</div>
+        <div class="card-grid-2" style="margin:1rem 0 1.5rem">
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFF0F5;color:#D53F8C">督</div>
+              <div>
+                <div class="k-card-title">督脉</div>
+                <div class="k-card-sub">阳脉之海 · 28穴</div>
+              </div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              督脉行于背部正中，总督一身之阳经，故称"阳脉之海"。起于长强（尾骨端），沿脊柱上行，经项部，入脑，上头顶，止于龈交（上唇系带）。<br><br>
+              <strong>主要穴位：</strong>长强、腰阳关、命门（GV4）、至阳、大椎（GV14）、风府、百会（GV20）、印堂、水沟（人中）、龈交。<br><br>
+              <strong>主治：</strong>脊椎病、神志病、热病；阳气虚衰诸证。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#E6FFFA;color:#2C7A7B">任</div>
+              <div>
+                <div class="k-card-title">任脉</div>
+                <div class="k-card-sub">阴脉之海 · 24穴</div>
+              </div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              任脉行于腹部正中，总任一身之阴经，故称"阴脉之海"。起于会阴，沿腹部正中线上行，经胸部，止于承浆（下颌）。与胞宫相连，主胎产。<br><br>
+              <strong>主要穴位：</strong>会阴、曲骨、关元（CV4）、气海（CV6）、神阙（肚脐）、中脘（CV12）、膻中（CV17）、天突（CV22）、廉泉、承浆。<br><br>
+              <strong>主治：</strong>腹部、胸部、颈部疾患；妇科病；生殖系统疾病。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon">冲</div>
+              <div>
+                <div class="k-card-title">冲脉</div>
+                <div class="k-card-sub">十二经脉之海</div>
+              </div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              冲脉起于胞宫，上行经腹，与足少阴肾经并行，为"十二经脉之海"，又称"血海"。与女性月经关系密切，主血。<br><br>
+              <strong>与任、督关系：</strong>"一源三歧"——冲、任、督均起于胞宫（丹田），分别行于前、后、中。与内关（八脉交会穴之一）相通。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon">带</div>
+              <div>
+                <div class="k-card-title">带脉</div>
+                <div class="k-card-sub">约束纵行诸经</div>
+              </div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              带脉起于季肋，横行腰腹一周，如束带，是奇经八脉中唯一横行的经脉。功能：约束纵行诸脉，主妇科带下病。<br><br>
+              <strong>八脉交会穴：</strong>足临泣（GB41）通带脉，外关（SJ5）通阳维脉。
+            </div></div>
+          </div>
+        </div>
+
+        <div class="info-box info-box-coral">
+          <strong>八脉交会穴口诀：</strong><br>
+          公孙冲脉胃心胸，内关阴维下总同；<br>
+          临泣胆经连带脉，阳维目锐外关逢；<br>
+          后溪督脉内眦颈，申脉阳跷络亦通；<br>
+          列缺任脉行肺系，阴跷照海膈喉咙。
+        </div>
+
+        <div class="quiz-wrap">
+          <div class="quiz-title">📝 章节小测 · 经络系统</div>
+          <div class="quiz-q" data-answer="B">
+            <div class="quiz-q-text">1. 督脉被称为"阳脉之海"，它运行于人体哪个部位的正中线？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q1_1" value="A">A. 腹部正中</label>
+              <label class="quiz-opt"><input type="radio" name="q1_1" value="B">B. 背部正中</label>
+              <label class="quiz-opt"><input type="radio" name="q1_1" value="C">C. 侧面</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="C">
+            <div class="quiz-q-text">2. 十二正经中穴位最多的是哪条经脉？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q1_2" value="A">A. 足阳明胃经（45穴）</label>
+              <label class="quiz-opt"><input type="radio" name="q1_2" value="B">B. 足少阳胆经（44穴）</label>
+              <label class="quiz-opt"><input type="radio" name="q1_2" value="C">C. 足太阳膀胱经（67穴）</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="A">
+            <div class="quiz-q-text">3. 奇经八脉中唯一横行于腰部、约束纵行诸经的是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q1_3" value="A">A. 带脉</label>
+              <label class="quiz-opt"><input type="radio" name="q1_3" value="B">B. 冲脉</label>
+              <label class="quiz-opt"><input type="radio" name="q1_3" value="C">C. 阴维脉</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-submit">提交答案</button>
+          <div class="quiz-result"></div>
+          <button class="mark-done-btn">✓ 标记本章已学完</button>
+        </div>
+      </div>
+
+      <!-- ══ CHAPTER 2 ══ -->
+      <div class="chapter" id="chapter-1">
+        <div class="chapter-hero" data-num="贰">
+          <div class="chapter-eyebrow">CHAPTER 02</div>
+          <div class="chapter-title">腧穴分类</div>
+          <div class="chapter-desc">腧穴是针灸施术的部位，根据归属与特性分为多个类别，各有独特的临床意义。</div>
+        </div>
+
+        <div class="section-title">腧穴三大类</div>
+        <div class="type-grid">
+          <div class="type-card">
+            <div class="type-card-icon">📍</div>
+            <div class="type-card-name">经穴</div>
+            <div class="type-card-count">361穴</div>
+            <div class="type-card-desc">归属十四经脉，有固定位置和名称，有系统的主治规律</div>
+          </div>
+          <div class="type-card">
+            <div class="type-card-icon">⭐</div>
+            <div class="type-card-name">奇穴</div>
+            <div class="type-card-count">数十个</div>
+            <div class="type-card-desc">有固定位置和名称，但不归属十四经脉，对特定病症有特效</div>
+          </div>
+          <div class="type-card">
+            <div class="type-card-icon">🎯</div>
+            <div class="type-card-name">阿是穴</div>
+            <div class="type-card-count">不定</div>
+            <div class="type-card-desc">无固定位置，以压痛点或病理反应点为穴，即"以痛为腧"</div>
+          </div>
+        </div>
+
+        <div class="section-title">特定穴详解</div>
+        <div class="info-box info-box-blue">
+          <strong>特定穴</strong>是指十四经中具有特殊性能、特定治疗作用的穴位，包括五输穴、原穴、络穴、郄穴、募穴、背俞穴、八会穴、八脉交会穴、下合穴、交会穴共10类。
+        </div>
+
+        <div class="card-grid" style="margin:1rem 0 1.5rem">
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon">五</div>
+              <div><div class="k-card-title">五输穴</div><div class="k-card-sub">井荥输经合，各有主治</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              每条正经在肘膝以下各有5个穴位，按气血流注由小到大依次为：<br><br>
+              <strong>井穴</strong>（指趾末端）：主治神志病、热病，急救；如少商（LU11）<br>
+              <strong>荥穴</strong>（指趾掌跖处）：主治热病；如鱼际（LU10）<br>
+              <strong>输穴</strong>（掌跖后）：主治体重节痛、时间性发病；如太渊（LU9）<br>
+              <strong>经穴</strong>（腕踝以上）：主治喘咳、寒热；如经渠（LU8）<br>
+              <strong>合穴</strong>（肘膝处）：主治六腑疾患、逆气泄泻；如尺泽（LU5）
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFF5F7;color:#D53F8C">原</div>
+              <div><div class="k-card-title">原穴 · 络穴</div><div class="k-card-sub">各12个；调脏腑之气</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              <strong>原穴</strong>（12个）：脏腑原气经过和留止的穴位，治疗对应脏腑疾患。阴经原穴即五输穴中的输穴。如太渊（肺）、合谷（大肠）、太冲（肝）。<br><br>
+              <strong>络穴</strong>（15个）：络脉由正经别出处，联络表里两经。12经各一，加任脉（鸠尾）、督脉（长强）、脾之大络（大包）。如列缺（肺之络，通大肠经）。<br><br>
+              <strong>原络配穴法</strong>：表里经同时治疗，如肺经原穴太渊 + 大肠经络穴偏历。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFFAF0;color:#C05621">募</div>
+              <div><div class="k-card-title">募穴 · 背俞穴</div><div class="k-card-sub">前募后俞，治脏腑</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              <strong>募穴</strong>（12个）：脏腑之气汇聚于胸腹部的穴位，多用于诊断和治疗六腑病（阳病取募）。如中脘（胃募）、膻中（心包募）。<br><br>
+              <strong>背俞穴</strong>（12个）：脏腑之气输注于背部的穴位，均在膀胱经第一侧线，多用于治疗五脏病（阴病取背俞）。如肺俞（BL13）、心俞（BL15）、肾俞（BL23）。<br><br>
+              <strong>俞募配穴</strong>：前后同取，增强疗效。如治肺病：肺俞（背）+ 中府（前）。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#F0FFF4;color:#276749">八会</div>
+              <div><div class="k-card-title">八会穴</div><div class="k-card-sub">八类物质精气汇聚</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              八种精气聚会的穴位，治疗相应组织器官病变：<br><br>
+              脏会 <strong>章门</strong>（LV13）· 腑会 <strong>中脘</strong>（CV12）<br>
+              气会 <strong>膻中</strong>（CV17）· 血会 <strong>膈俞</strong>（BL17）<br>
+              骨会 <strong>大杼</strong>（BL11）· 髓会 <strong>悬钟</strong>（GB39）<br>
+              筋会 <strong>阳陵泉</strong>（GB34）· 脉会 <strong>太渊</strong>（LU9）
+            </div></div>
+          </div>
+        </div>
+
+        <div class="quiz-wrap">
+          <div class="quiz-title">📝 章节小测 · 腧穴分类</div>
+          <div class="quiz-q" data-answer="C">
+            <div class="quiz-q-text">1. "以痛为腧"描述的是哪类腧穴？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q2_1" value="A">A. 经穴</label>
+              <label class="quiz-opt"><input type="radio" name="q2_1" value="B">B. 奇穴</label>
+              <label class="quiz-opt"><input type="radio" name="q2_1" value="C">C. 阿是穴</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="B">
+            <div class="quiz-q-text">2. 八会穴中，"筋之会"是哪个穴位？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q2_2" value="A">A. 悬钟（GB39）</label>
+              <label class="quiz-opt"><input type="radio" name="q2_2" value="B">B. 阳陵泉（GB34）</label>
+              <label class="quiz-opt"><input type="radio" name="q2_2" value="C">C. 太渊（LU9）</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="A">
+            <div class="quiz-q-text">3. 五输穴中，位于指趾末端、主治神志病和热病的是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q2_3" value="A">A. 井穴</label>
+              <label class="quiz-opt"><input type="radio" name="q2_3" value="B">B. 荥穴</label>
+              <label class="quiz-opt"><input type="radio" name="q2_3" value="C">C. 合穴</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-submit">提交答案</button>
+          <div class="quiz-result"></div>
+          <button class="mark-done-btn">✓ 标记本章已学完</button>
+        </div>
+      </div>
+
+      <!-- ══ CHAPTER 3 ══ -->
+      <div class="chapter" id="chapter-2">
+        <div class="chapter-hero" data-num="叁">
+          <div class="chapter-eyebrow">CHAPTER 03</div>
+          <div class="chapter-title">针刺手法</div>
+          <div class="chapter-desc">正确的进针方法、行针手法与补泻操作，是取得针灸疗效的关键。</div>
+        </div>
+
+        <div class="section-title">进针四步骤</div>
+        <div class="method-cards">
+          <div class="method-card">
+            <div class="method-card-num">1</div>
+            <div class="method-card-title">选穴定位</div>
+            <div class="method-card-desc">根据病情选取处方穴位，用骨度分寸法或体表标志法精确定位，做好标记。</div>
+            <span class="method-card-eg">关键：取穴准确是疗效的基础</span>
+          </div>
+          <div class="method-card">
+            <div class="method-card-num">2</div>
+            <div class="method-card-title">消毒准备</div>
+            <div class="method-card-desc">医者手部消毒，穴位皮肤用75%酒精棉球由内向外旋转擦拭，待干后进针。</div>
+            <span class="method-card-eg">关键：严格无菌操作</span>
+          </div>
+          <div class="method-card">
+            <div class="method-card-num">3</div>
+            <div class="method-card-title">进针方法</div>
+            <div class="method-card-desc">常用方法：单手进针法、双手进针法（指切、夹持、舒张、提捏进针）。进针时迅速穿过皮肤，减少疼痛。</div>
+            <span class="method-card-eg">关键：快速过皮，减少痛感</span>
+          </div>
+          <div class="method-card">
+            <div class="method-card-num">4</div>
+            <div class="method-card-title">行针得气</div>
+            <div class="method-card-desc">针刺后施以提插、捻转手法，使患者产生酸、麻、胀、重感（得气），即为针感到达。</div>
+            <span class="method-card-eg">关键：「气至病所」</span>
+          </div>
+        </div>
+
+        <div class="section-title">补泻手法</div>
+        <div class="info-box info-box-blue">
+          <strong>补法</strong>适用于虚证，<strong>泻法</strong>适用于实证，<strong>平补平泻</strong>适用于虚实不明显的情况。补泻是针灸调节阴阳的核心操作。
+        </div>
+        <div class="method-cards">
+          <div class="method-card" style="border-top-color:var(--teal-light)">
+            <div class="method-card-num" style="background:var(--teal-light)">补</div>
+            <div class="method-card-title">补法要点</div>
+            <div class="method-card-desc">
+              捻转补法：角度小、频率慢、用力轻<br>
+              提插补法：重插轻提<br>
+              疾徐补法：慢进针，快出针<br>
+              呼吸补法：呼气时进针，吸气时出针<br>
+              开阖补法：出针后立即按压针孔
+            </div>
+          </div>
+          <div class="method-card" style="border-top-color:var(--coral)">
+            <div class="method-card-num">泻</div>
+            <div class="method-card-title">泻法要点</div>
+            <div class="method-card-desc">
+              捻转泻法：角度大、频率快、用力重<br>
+              提插泻法：重提轻插<br>
+              疾徐泻法：快进针，慢出针<br>
+              呼吸泻法：吸气时进针，呼气时出针<br>
+              开阖泻法：出针时摇大针孔，不按
+            </div>
+          </div>
+          <div class="method-card" style="border-top-color:#48BB78">
+            <div class="method-card-num" style="background:#48BB78">平</div>
+            <div class="method-card-title">平补平泻</div>
+            <div class="method-card-desc">
+              进针得气后，均匀地提插捻转，不偏补泻，适用于虚实错杂或体质一般的患者。<br><br>
+              是临床最常用的基础手法，初学者应先掌握平补平泻。
+            </div>
+          </div>
+          <div class="method-card" style="border-top-color:#805AD5">
+            <div class="method-card-num" style="background:#805AD5">留</div>
+            <div class="method-card-title">留针与出针</div>
+            <div class="method-card-desc">
+              <strong>留针：</strong>进针并施手法后，将针留置穴内一段时间（通常20-30分钟），以加强疗效。<br><br>
+              <strong>出针：</strong>左手持棉球按穴旁，右手拇食指持针轻轻捻转，缓缓退至皮下，迅速拔出，按压针孔。
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-wrap">
+          <div class="quiz-title">📝 章节小测 · 针刺手法</div>
+          <div class="quiz-q" data-answer="B">
+            <div class="quiz-q-text">1. 针刺得气的典型感觉是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q3_1" value="A">A. 剧烈疼痛</label>
+              <label class="quiz-opt"><input type="radio" name="q3_1" value="B">B. 酸、麻、胀、重感</label>
+              <label class="quiz-opt"><input type="radio" name="q3_1" value="C">C. 皮肤灼热</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="A">
+            <div class="quiz-q-text">2. 补法中"提插补法"的正确操作是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q3_2" value="A">A. 重插轻提</label>
+              <label class="quiz-opt"><input type="radio" name="q3_2" value="B">B. 重提轻插</label>
+              <label class="quiz-opt"><input type="radio" name="q3_2" value="C">C. 提插力度相同</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="C">
+            <div class="quiz-q-text">3. 临床针灸通常的留针时间是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q3_3" value="A">A. 5分钟</label>
+              <label class="quiz-opt"><input type="radio" name="q3_3" value="B">B. 10分钟</label>
+              <label class="quiz-opt"><input type="radio" name="q3_3" value="C">C. 20~30分钟</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-submit">提交答案</button>
+          <div class="quiz-result"></div>
+          <button class="mark-done-btn">✓ 标记本章已学完</button>
+        </div>
+      </div>
+
+      <!-- ══ CHAPTER 4 ══ -->
+      <div class="chapter" id="chapter-3">
+        <div class="chapter-hero" data-num="肆" style="background:linear-gradient(135deg,#7B2D2D 0%,#A04040 100%)">
+          <div class="chapter-eyebrow">CHAPTER 04</div>
+          <div class="chapter-title">针灸禁忌</div>
+          <div class="chapter-desc">安全施针是针灸的基本原则，了解禁忌是每位学习者的必修课。</div>
+        </div>
+
+        <div class="info-box info-box-coral">
+          ⚠️ 以下内容为学习参考。临床针灸操作必须在取得相应资质的专业人员指导下进行，切勿自行尝试。
+        </div>
+
+        <div class="section-title">情况禁忌</div>
+        <div class="card-grid" style="margin-bottom:1.5rem">
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFF5F7;color:#C53030">🤰</div>
+              <div><div class="k-card-title">妊娠禁忌</div><div class="k-card-sub">孕妇特殊穴位禁针</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              孕妇<strong>禁针</strong>：合谷（LI4）、三阴交（SP6）、昆仑、至阴等有催产作用的穴位。<br>
+              <strong>禁灸</strong>：腹部、腰骶部穴位（妊娠期全程）。<br>
+              妊娠3个月内，尽量避免针灸腹部及腰骶部。
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFF5F7;color:#C53030">🏥</div>
+              <div><div class="k-card-title">身体状态禁忌</div><div class="k-card-sub">特殊状态需注意</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              <strong>禁止针刺的情况：</strong><br>
+              · 过饥、过饱、过劳、醉酒后<br>
+              · 大汗、大失血后（元气大伤）<br>
+              · 极度虚弱、精神高度紧张者<br>
+              · 皮肤感染、溃疡、瘢痕部位<br>
+              · 凝血功能障碍者<br>
+              · 不能配合的患者（婴幼儿等）
+            </div></div>
+          </div>
+          <div class="k-card">
+            <div class="k-card-head">
+              <div class="k-card-icon" style="background:#FFF5F7;color:#C53030">📍</div>
+              <div><div class="k-card-title">部位禁忌</div><div class="k-card-sub">特殊解剖区域禁深刺</div></div>
+              <span class="k-card-arrow">▾</span>
+            </div>
+            <div class="k-card-body"><div class="k-card-body-inner">
+              <strong>风府、哑门</strong>：近延髓，禁深刺，针尖方向严格向下颌方向<br>
+              <strong>睛明、球后</strong>：眼部穴位，禁捻转，出针后按压3分钟<br>
+              <strong>肩井</strong>（GB21）：深部为肺尖，孕妇禁针，普通人亦不可深刺<br>
+              <strong>缺盆</strong>：锁骨上窝，深部为肺尖和大血管<br>
+              胸背部穴位：斜刺，不可深刺，防气胸
+            </div></div>
+          </div>
+        </div>
+
+        <div class="section-title">晕针处理</div>
+        <div class="info-box info-box-green">
+          <strong>晕针症状：</strong>头晕、面色苍白、心慌、出汗、甚至晕厥。<br><br>
+          <strong>处理步骤：</strong><br>
+          1. 立即出针，让患者平卧，头低脚高位<br>
+          2. 松开衣领，注意保暖<br>
+          3. 给予温开水或温糖水<br>
+          4. 轻者片刻即可恢复；重者点按人中（GV26）、内关（PC6）、足三里（ST36）<br>
+          5. 仍未缓解者，立即就医
+        </div>
+
+        <div class="quiz-wrap">
+          <div class="quiz-title">📝 章节小测 · 针灸禁忌</div>
+          <div class="quiz-q" data-answer="B">
+            <div class="quiz-q-text">1. 孕妇针灸时，以下哪个穴位属于禁针穴？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q4_1" value="A">A. 足三里（ST36）</label>
+              <label class="quiz-opt"><input type="radio" name="q4_1" value="B">B. 合谷（LI4）</label>
+              <label class="quiz-opt"><input type="radio" name="q4_1" value="C">C. 内关（PC6）</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="C">
+            <div class="quiz-q-text">2. 风府、哑门两穴进针时的特殊要求是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q4_2" value="A">A. 需要深刺才有效</label>
+              <label class="quiz-opt"><input type="radio" name="q4_2" value="B">B. 需要大幅度捻转</label>
+              <label class="quiz-opt"><input type="radio" name="q4_2" value="C">C. 禁深刺，针尖朝向下颌方向</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <div class="quiz-q" data-answer="A">
+            <div class="quiz-q-text">3. 患者出现晕针时，第一步正确处理是？</div>
+            <div class="quiz-options">
+              <label class="quiz-opt"><input type="radio" name="q4_3" value="A">A. 立即出针，让患者平卧，头低脚高</label>
+              <label class="quiz-opt"><input type="radio" name="q4_3" value="B">B. 继续行针，加大刺激量</label>
+              <label class="quiz-opt"><input type="radio" name="q4_3" value="C">C. 立即注射肾上腺素</label>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-submit">提交答案</button>
+          <div class="quiz-result"></div>
+          <button class="mark-done-btn">✓ 标记本章已学完</button>
+        </div>
+      </div>
+
+    </div><!-- end theory-content -->
+  </div><!-- end theory-layout -->
+</div>
+
+<footer class="site-footer">
+  <strong>针灸入门</strong> · 内容仅供学习参考，不构成医疗建议
+</footer>
+
+<script src="assets/acupoints-data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+// ── Populate meridian table ──
+(function() {
+  const rows = [
+    {name:'手太阴肺经',  color:'var(--c-lu)', abbr:'LU', organ:'肺',  count:11, start:'中府',  end:'少商',  note:'循行上肢内侧前缘'},
+    {name:'手阳明大肠经',color:'var(--c-li)', abbr:'LI', organ:'大肠',count:20, start:'商阳',  end:'迎香',  note:'循行上肢外侧前缘'},
+    {name:'足阳明胃经',  color:'var(--c-st)', abbr:'ST', organ:'胃',  count:45, start:'承泣',  end:'厉兑',  note:'循行下肢外侧前缘'},
+    {name:'足太阴脾经',  color:'var(--c-sp)', abbr:'SP', organ:'脾',  count:21, start:'隐白',  end:'大包',  note:'循行下肢内侧中线'},
+    {name:'手少阴心经',  color:'var(--c-ht)', abbr:'HT', organ:'心',  count:9,  start:'极泉',  end:'少冲',  note:'循行上肢内侧后缘'},
+    {name:'手太阳小肠经',color:'var(--c-si)', abbr:'SI', organ:'小肠',count:19, start:'少泽',  end:'听宫',  note:'循行上肢外侧后缘'},
+    {name:'足太阳膀胱经',color:'var(--c-bl)', abbr:'BL', organ:'膀胱',count:67, start:'睛明',  end:'至阴',  note:'循行背部及下肢后缘'},
+    {name:'足少阴肾经',  color:'var(--c-ki)', abbr:'KI', organ:'肾',  count:27, start:'涌泉',  end:'俞府',  note:'循行下肢内侧后缘'},
+    {name:'手厥阴心包经',color:'var(--c-pc)', abbr:'PC', organ:'心包',count:9,  start:'天池',  end:'中冲',  note:'循行上肢内侧中线'},
+    {name:'手少阳三焦经',color:'var(--c-sj)', abbr:'SJ', organ:'三焦',count:23, start:'关冲',  end:'丝竹空',note:'循行上肢外侧中线'},
+    {name:'足少阳胆经',  color:'var(--c-gb)', abbr:'GB', organ:'胆',  count:44, start:'瞳子髎',end:'足窍阴',note:'循行下肢外侧中线'},
+    {name:'足厥阴肝经',  color:'var(--c-lv)', abbr:'LV', organ:'肝',  count:14, start:'大敦',  end:'期门',  note:'循行下肢内侧前缘'},
+  ];
+  const tbody = document.getElementById('meridianTableBody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td><span class="mer-color-dot" style="background:${r.color}"></span><strong>${r.name}</strong></td>
+      <td><code style="background:var(--cream2);padding:.1rem .4rem;border-radius:4px;font-size:.78rem">${r.abbr}</code></td>
+      <td>${r.organ}</td>
+      <td><span style="color:var(--coral);font-weight:700">${r.count}</span></td>
+      <td>${r.start} → ${r.end}</td>
+      <td style="color:var(--text-3);font-size:.8rem">${r.note}</td>
+    </tr>
+  `).join('');
+})();
+
+// ── Init quizzes for each chapter ──
+const MODULE_KEY = 'theory';
+const chapters   = document.querySelectorAll('.chapter');
+const tocItems   = document.querySelectorAll('.toc-item');
+let doneCount    = 0;
+
+chapters.forEach((ch, i) => {
+  initQuiz(ch, null); // don't auto-markDone via quiz engine
+  const submitBtn = ch.querySelector('.quiz-submit');
+  const markBtn   = ch.querySelector('.mark-done-btn');
+
+  // Override mark-done per chapter
+  if (markBtn) {
+    markBtn.addEventListener('click', function() {
+      if (this.classList.contains('done')) return;
+      this.textContent = '✓ 已完成';
+      this.classList.add('done');
+      document.getElementById('toc-done-' + i).textContent = '✓';
+      tocItems[i].classList.add('active');
+      doneCount++;
+      const pct = Math.round(doneCount / chapters.length * 100);
+      document.getElementById('pageProgressBar').style.width = pct + '%';
+      document.getElementById('pageProgressPct').textContent = pct + '%';
+      Progress.setModulePct(MODULE_KEY, pct);
+    });
+  }
+});
+
+// ── TOC scroll & highlight ──
+function scrollToChapter(idx) {
+  const ch = document.getElementById('chapter-' + idx);
+  if (ch) ch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = [...chapters].indexOf(e.target);
+      if (idx === -1) return;
+      tocItems.forEach((t, i) => {
+        if (i !== idx) t.classList.remove('active');
+      });
+      tocItems[idx].classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+chapters.forEach(ch => observer.observe(ch));
+
+// ── Load saved progress ──
+(function() {
+  const prog = Progress.get();
+  const pct  = prog[MODULE_KEY]?.pct || 0;
+  document.getElementById('pageProgressBar').style.width = pct + '%';
+  document.getElementById('pageProgressPct').textContent = pct + '%';
+})();
+
+initKCards();
+</script>
+</body>
+</html>
