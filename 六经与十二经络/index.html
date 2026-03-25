@@ -1,1621 +1,1827 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>六经与十二经络 · 从阴阳盛衰到经脉全名</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap');
-
-        :root {
-            --bg: #f6f2eb;
-            --bg-warm: #f0ebe0;
-            --bg-card: #ffffff;
-            --ink: #2a2118;
-            --ink-light: #5c5042;
-            --ink-faint: #8e8274;
-            --gold: #b8942e;
-            --gold-soft: rgba(184, 148, 46, 0.12);
-            --taiyang: #1a5276;
-            --taiyang-bg: #e4eef6;
-            --yangming: #b35c1e;
-            --yangming-bg: #faf0e4;
-            --shaoyang: #7d6608;
-            --shaoyang-bg: #f5f0d6;
-            --taiyin: #2e5e4e;
-            --taiyin-bg: #e4f0ea;
-            --shaoyin: #5b2c6f;
-            --shaoyin-bg: #eee4f4;
-            --jueyin: #78281f;
-            --jueyin-bg: #f4e6e4;
-            --shadow: 0 2px 24px rgba(42, 33, 24, 0.06);
-            --shadow-hover: 0 6px 32px rgba(42, 33, 24, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Noto Serif SC', serif;
-            background: var(--bg);
-            color: var(--ink);
-            line-height: 2;
-            overflow-x: hidden;
-        }
-
-        /* ========== HERO ========== */
-        .hero {
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 3rem 2rem;
-            position: relative;
-            background:
-                radial-gradient(ellipse at 25% 30%, rgba(184, 148, 46, 0.06) 0%, transparent 55%),
-                radial-gradient(ellipse at 75% 70%, rgba(90, 77, 58, 0.04) 0%, transparent 50%),
-                var(--bg);
-        }
-
-        .hero-icon {
-            font-size: 2.8rem;
-            margin-bottom: 0.8rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.2s forwards;
-        }
-
-        .hero h1 {
-            font-family: 'ZCOOL XiaoWei', serif;
-            font-size: clamp(2.2rem, 6vw, 3.8rem);
-            letter-spacing: 0.25em;
-            margin-bottom: 0.4rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.4s forwards;
-        }
-
-        .hero h1 span {
-            color: var(--gold);
-        }
-
-        .hero-sub {
-            font-size: 1rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.12em;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.6s forwards;
-        }
-
-        .hero-intro {
-            max-width: 640px;
-            font-size: 0.95rem;
-            color: var(--ink-light);
-            line-height: 2.1;
-            text-align: left;
-            border-left: 2px solid var(--gold);
-            padding-left: 1.2rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.8s forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ========== NAV ========== */
-        .nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(246, 242, 235, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(42, 33, 24, 0.06);
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .nav a {
-            text-decoration: none;
-            padding: 0.85rem 1.3rem;
-            font-size: 0.86rem;
-            letter-spacing: 0.06em;
-            color: var(--ink-light);
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .nav a:hover {
-            color: var(--ink);
-            border-bottom-color: var(--gold);
-        }
-
-        /* ========== SECTION COMMON ========== */
-        .section {
-            max-width: 880px;
-            margin: 0 auto;
-            padding: 3.5rem 2rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            font-size: 0.72rem;
-            letter-spacing: 0.15em;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            border-radius: 20px;
-            padding: 0.2rem 0.8rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .section h2 {
-            font-family: 'ZCOOL XiaoWei', serif;
-            font-size: 1.7rem;
-            letter-spacing: 0.12em;
-            margin-bottom: 0.4rem;
-        }
-
-        .section-desc {
-            font-size: 0.92rem;
-            color: var(--ink-light);
-            margin-bottom: 2rem;
-            max-width: 680px;
-        }
-
-        /* ========== CARDS ========== */
-        .card {
-            background: var(--bg-card);
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            transition: box-shadow 0.3s;
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-hover);
-        }
-
-        .card-bar {
-            height: 3px;
-        }
-
-        .card-body {
-            padding: 1.8rem 2rem;
-        }
-
-        /* ========== PART 1: YIN-YANG LEVELS ========== */
-        .level-group-title {
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            margin: 2rem 0 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(42, 33, 24, 0.08);
-        }
-
-        .level-card {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 1.5rem;
-            align-items: start;
-        }
-
-        .level-badge {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-            margin-top: 0.3rem;
-        }
-
-        .level-badge .zh {
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-        }
-
-        .level-badge .sub {
-            font-size: 0.65rem;
-            opacity: 0.85;
-            margin-top: -2px;
-        }
-
-        .level-content h4 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .level-content .meaning {
-            display: inline-block;
-            font-size: 0.78rem;
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            font-weight: 400;
-        }
-
-        .level-content p {
-            font-size: 0.9rem;
-            color: var(--ink-light);
-            line-height: 2;
-        }
-
-        .level-content .keywords {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-top: 0.6rem;
-        }
-
-        .kw {
-            font-size: 0.78rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 16px;
-            border: 1px solid;
-        }
-
-        .analogy {
-            margin-top: 0.8rem;
-            padding: 0.8rem 1rem;
-            background: var(--bg-warm);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: var(--ink-light);
-            line-height: 1.9;
-        }
-
-        .analogy::before {
-            content: '💡 ';
-        }
-
-        /* Colors per jing */
-        .c-ty .level-badge {
-            background: var(--taiyang);
-        }
-
-        .c-ty .meaning {
-            background: var(--taiyang-bg);
-            color: var(--taiyang);
-        }
-
-        .c-ty .kw {
-            color: var(--taiyang);
-            border-color: rgba(26, 82, 118, 0.25);
-            background: var(--taiyang-bg);
-        }
-
-        .c-ym .level-badge {
-            background: var(--yangming);
-        }
-
-        .c-ym .meaning {
-            background: var(--yangming-bg);
-            color: var(--yangming);
-        }
-
-        .c-ym .kw {
-            color: var(--yangming);
-            border-color: rgba(179, 92, 30, 0.25);
-            background: var(--yangming-bg);
-        }
-
-        .c-sy .level-badge {
-            background: var(--shaoyang);
-        }
-
-        .c-sy .meaning {
-            background: var(--shaoyang-bg);
-            color: var(--shaoyang);
-        }
-
-        .c-sy .kw {
-            color: var(--shaoyang);
-            border-color: rgba(125, 102, 8, 0.25);
-            background: var(--shaoyang-bg);
-        }
-
-        .c-tin .level-badge {
-            background: var(--taiyin);
-        }
-
-        .c-tin .meaning {
-            background: var(--taiyin-bg);
-            color: var(--taiyin);
-        }
-
-        .c-tin .kw {
-            color: var(--taiyin);
-            border-color: rgba(46, 94, 78, 0.25);
-            background: var(--taiyin-bg);
-        }
-
-        .c-sin .level-badge {
-            background: var(--shaoyin);
-        }
-
-        .c-sin .meaning {
-            background: var(--shaoyin-bg);
-            color: var(--shaoyin);
-        }
-
-        .c-sin .kw {
-            color: var(--shaoyin);
-            border-color: rgba(91, 44, 111, 0.25);
-            background: var(--shaoyin-bg);
-        }
-
-        .c-jy .level-badge {
-            background: var(--jueyin);
-        }
-
-        .c-jy .meaning {
-            background: var(--jueyin-bg);
-            color: var(--jueyin);
-        }
-
-        .c-jy .kw {
-            color: var(--jueyin);
-            border-color: rgba(120, 40, 31, 0.25);
-            background: var(--jueyin-bg);
-        }
-
-        /* ========== YIN-YANG SPECTRUM ========== */
-        .spectrum {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: var(--bg-card);
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-        }
-
-        .spectrum h4 {
-            font-size: 0.88rem;
-            text-align: center;
-            color: var(--ink-faint);
-            margin-bottom: 1rem;
-            letter-spacing: 0.08em;
-        }
-
-        .spectrum-bar {
-            display: flex;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 48px;
-        }
-
-        .spectrum-seg {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            position: relative;
-            transition: flex 0.3s;
-        }
-
-        .spectrum-seg:hover {
-            flex: 1.3;
-        }
-
-        .spectrum-seg .arrow-label {
-            position: absolute;
-            bottom: -22px;
-            font-size: 0.72rem;
-            color: var(--ink-faint);
-            white-space: nowrap;
-        }
-
-        .spectrum-legend {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.8rem;
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-        }
-
-        /* ========== PART 2: SPATIAL MEMORY ========== */
-        .body-diagram {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 1.5rem 0;
-        }
-
-        .body-side {
-            background: var(--bg-card);
-            border-radius: 14px;
-            padding: 1.8rem;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .body-side h4 {
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .body-side .hint {
-            font-size: 0.82rem;
-            color: var(--ink-faint);
-            margin-bottom: 1.2rem;
-        }
-
-        .limb-row {
-            display: grid;
-            grid-template-columns: 60px 1fr 1fr 1fr;
-            gap: 0.5rem;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .limb-label {
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-            text-align: right;
-            padding-right: 0.3rem;
-        }
-
-        .limb-cell {
-            padding: 0.5rem 0.3rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-align: center;
-            letter-spacing: 0.04em;
-        }
-
-        .limb-header {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--ink-faint);
-            text-align: center;
-            letter-spacing: 0.06em;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(42, 33, 24, 0.06);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Route cards */
-        .route-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.2rem;
-            margin: 1.5rem 0;
-        }
-
-        .route-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .route-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .route-card .route-name {
-            font-family: 'ZCOOL XiaoWei', serif;
-            font-size: 1.4rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .route-card .route-pos {
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-            margin-bottom: 0.8rem;
-        }
-
-        .route-pair {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.88rem;
-        }
-
-        .route-pair .tag {
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.82rem;
-        }
-
-        .route-pair .link {
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-        }
-
-        .route-mnemonic {
-            margin-top: 0.8rem;
-            padding: 0.5rem 0.8rem;
-            background: var(--bg-warm);
-            border-radius: 6px;
-            font-size: 0.78rem;
-            color: var(--ink-light);
-            line-height: 1.7;
-        }
-
-        .note-box {
-            margin-top: 1.5rem;
-            padding: 1rem 1.2rem;
-            background: var(--bg-warm);
-            border-radius: 10px;
-            border-left: 3px solid var(--gold);
-            font-size: 0.85rem;
-            color: var(--ink-light);
-            line-height: 2;
-        }
-
-        /* ========== PART 3: FULL NAMES ========== */
-        .combo-section {
-            margin-top: 1rem;
-        }
-
-        .combo-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .combo-title {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .combo-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .combo-title span {
-            font-size: 0.92rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-        }
-
-        .combo-pair-row {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 0.8rem;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .combo-box {
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid;
-        }
-
-        .combo-box .full-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-        }
-
-        .combo-box .organ {
-            font-size: 0.78rem;
-            opacity: 0.7;
-            margin-top: 0.1rem;
-        }
-
-        .combo-arrow {
-            font-size: 1.3rem;
-            color: var(--ink-faint);
-        }
-
-        .combo-explain {
-            font-size: 0.82rem;
-            color: var(--ink-faint);
-            text-align: center;
-            margin-top: -0.3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Decode formula */
-        .decode {
-            margin: 2rem 0;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .decode h4 {
-            font-size: 0.92rem;
-            margin-bottom: 1rem;
-            letter-spacing: 0.08em;
-        }
-
-        .formula {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .formula-part {
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .formula-op {
-            font-size: 1.3rem;
-            color: var(--gold);
-        }
-
-        .formula-example {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: var(--bg-warm);
-            border-radius: 10px;
-        }
-
-        .formula-example .part {
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            font-size: 0.88rem;
-        }
-
-        /* ========== FULL TABLE ========== */
-        .full-table-wrap {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-
-        .full-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 0.82rem;
-            text-align: center;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(42, 33, 24, 0.08);
-            background: var(--bg-card);
-        }
-
-        .full-table thead th {
-            background: var(--bg-warm);
-            padding: 0.7rem 0.5rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            border-bottom: 1px solid rgba(42, 33, 24, 0.08);
-        }
-
-        .full-table tbody td {
-            padding: 0.6rem 0.5rem;
-            border-bottom: 1px solid rgba(42, 33, 24, 0.04);
-            line-height: 1.6;
-        }
-
-        .full-table tbody tr:hover {
-            background: rgba(184, 148, 46, 0.03);
-        }
-
-        .full-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* ========== INTERACTIVE QUIZ ========== */
-        .quiz-section {
-            margin: 2rem 0;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-        }
-
-        .quiz-section h4 {
-            font-size: 0.95rem;
-            text-align: center;
-            margin-bottom: 1.2rem;
-            letter-spacing: 0.08em;
-        }
-
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.6rem;
-            margin-bottom: 1rem;
-        }
-
-        .quiz-btn {
-            padding: 0.6rem 0.3rem;
-            border: 1px solid rgba(42, 33, 24, 0.12);
-            border-radius: 8px;
-            background: var(--bg);
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.82rem;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .quiz-btn:hover {
-            border-color: var(--gold);
-            background: var(--gold-soft);
-        }
-
-        .quiz-btn.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .quiz-btn.wrong {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        .quiz-question {
-            text-align: center;
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-            min-height: 1.5em;
-        }
-
-        .quiz-result {
-            text-align: center;
-            font-size: 0.88rem;
-            min-height: 1.5em;
-            color: var(--ink-light);
-            margin-top: 0.5rem;
-        }
-
-        .quiz-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .quiz-controls button {
-            padding: 0.5rem 1.2rem;
-            border: 1px solid var(--gold);
-            border-radius: 20px;
-            background: transparent;
-            color: var(--gold);
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.82rem;
-            transition: all 0.2s;
-        }
-
-        .quiz-controls button:hover {
-            background: var(--gold);
-            color: white;
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            font-size: 0.8rem;
-            color: var(--ink-faint);
-            border-top: 1px solid rgba(42, 33, 24, 0.06);
-        }
-
-        footer .seal {
-            font-family: 'ZCOOL XiaoWei', serif;
-            font-size: 1.3rem;
-            color: var(--gold);
-            margin-bottom: 0.3rem;
-        }
-
-        /* ========== SCROLL ANIMATION ========== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 700px) {
-            .body-diagram {
-                grid-template-columns: 1fr;
-            }
-
-            .route-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .combo-pair-row {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
-
-            .combo-arrow {
-                transform: rotate(90deg);
-            }
-
-            .level-card {
-                grid-template-columns: 60px 1fr;
-                gap: 1rem;
-            }
-
-            .level-badge {
-                width: 56px;
-                height: 56px;
-            }
-
-            .level-badge .zh {
-                font-size: 1.1rem;
-            }
-
-            .quiz-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .formula {
-                gap: 0.3rem;
-            }
-
-            .formula-part {
-                font-size: 0.82rem;
-                padding: 0.4rem 0.6rem;
-            }
-
-            .limb-row {
-                grid-template-columns: 50px 1fr 1fr 1fr;
-                gap: 0.3rem;
-            }
-
-            .limb-cell {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.2rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六经与十二经络 · 从阴阳盛衰到经脉全名</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap');
+
+:root {
+  --bg: #f6f2eb;
+  --bg-warm: #f0ebe0;
+  --bg-card: #ffffff;
+  --ink: #2a2118;
+  --ink-light: #5c5042;
+  --ink-faint: #8e8274;
+  --gold: #b8942e;
+  --gold-soft: rgba(184,148,46,0.12);
+  --taiyang: #1a5276;
+  --taiyang-bg: #e4eef6;
+  --yangming: #b35c1e;
+  --yangming-bg: #faf0e4;
+  --shaoyang: #7d6608;
+  --shaoyang-bg: #f5f0d6;
+  --taiyin: #2e5e4e;
+  --taiyin-bg: #e4f0ea;
+  --shaoyin: #5b2c6f;
+  --shaoyin-bg: #eee4f4;
+  --jueyin: #78281f;
+  --jueyin-bg: #f4e6e4;
+  --shadow: 0 2px 24px rgba(42,33,24,0.06);
+  --shadow-hover: 0 6px 32px rgba(42,33,24,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 2;
+  overflow-x: hidden;
+}
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(184,148,46,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 70%, rgba(90,77,58,0.04) 0%, transparent 50%),
+    var(--bg);
+}
+
+.hero-icon { font-size: 2.8rem; margin-bottom: 0.8rem; opacity: 0; animation: fadeIn 0.8s ease 0.2s forwards; }
+
+.hero h1 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  letter-spacing: 0.25em;
+  margin-bottom: 0.4rem;
+  opacity: 0; animation: fadeIn 0.8s ease 0.4s forwards;
+}
+.hero h1 span { color: var(--gold); }
+
+.hero-sub {
+  font-size: 1rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.12em;
+  margin-bottom: 2rem;
+  opacity: 0; animation: fadeIn 0.8s ease 0.6s forwards;
+}
+
+.hero-intro {
+  max-width: 640px;
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 2.1;
+  text-align: left;
+  border-left: 2px solid var(--gold);
+  padding-left: 1.2rem;
+  opacity: 0; animation: fadeIn 0.8s ease 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(-12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: sticky;
+  top: 0; z-index: 100;
+  background: rgba(246,242,235,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(42,33,24,0.06);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.nav a {
+  text-decoration: none;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-light);
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+.nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+
+/* ========== SECTION COMMON ========== */
+.section {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.section h2 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.7rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.section-desc {
+  font-size: 0.92rem;
+  color: var(--ink-light);
+  margin-bottom: 2rem;
+  max-width: 680px;
+}
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.3s;
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+
+.card-bar { height: 3px; }
+.card-body { padding: 1.8rem 2rem; }
+
+/* ========== PART 1: YIN-YANG LEVELS ========== */
+.level-group-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(42,33,24,0.08);
+}
+
+.level-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.level-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+.level-badge .zh { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.05em; }
+.level-badge .sub { font-size: 0.65rem; opacity: 0.85; margin-top: -2px; }
+
+.level-content h4 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.level-content .meaning {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 400;
+}
+
+.level-content p {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 2;
+}
+
+.level-content .keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.kw {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 16px;
+  border: 1px solid;
+}
+
+.analogy {
+  margin-top: 0.8rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-warm);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  line-height: 1.9;
+}
+.analogy::before {
+  content: '💡 ';
+}
+
+/* Colors per jing */
+.c-ty .level-badge { background: var(--taiyang); }
+.c-ty .meaning { background: var(--taiyang-bg); color: var(--taiyang); }
+.c-ty .kw { color: var(--taiyang); border-color: rgba(26,82,118,0.25); background: var(--taiyang-bg); }
+
+.c-ym .level-badge { background: var(--yangming); }
+.c-ym .meaning { background: var(--yangming-bg); color: var(--yangming); }
+.c-ym .kw { color: var(--yangming); border-color: rgba(179,92,30,0.25); background: var(--yangming-bg); }
+
+.c-sy .level-badge { background: var(--shaoyang); }
+.c-sy .meaning { background: var(--shaoyang-bg); color: var(--shaoyang); }
+.c-sy .kw { color: var(--shaoyang); border-color: rgba(125,102,8,0.25); background: var(--shaoyang-bg); }
+
+.c-tin .level-badge { background: var(--taiyin); }
+.c-tin .meaning { background: var(--taiyin-bg); color: var(--taiyin); }
+.c-tin .kw { color: var(--taiyin); border-color: rgba(46,94,78,0.25); background: var(--taiyin-bg); }
+
+.c-sin .level-badge { background: var(--shaoyin); }
+.c-sin .meaning { background: var(--shaoyin-bg); color: var(--shaoyin); }
+.c-sin .kw { color: var(--shaoyin); border-color: rgba(91,44,111,0.25); background: var(--shaoyin-bg); }
+
+.c-jy .level-badge { background: var(--jueyin); }
+.c-jy .meaning { background: var(--jueyin-bg); color: var(--jueyin); }
+.c-jy .kw { color: var(--jueyin); border-color: rgba(120,40,31,0.25); background: var(--jueyin-bg); }
+
+/* ========== YIN-YANG SPECTRUM ========== */
+.spectrum {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.spectrum h4 {
+  font-size: 0.88rem;
+  text-align: center;
+  color: var(--ink-faint);
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.spectrum-bar {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 48px;
+}
+
+.spectrum-seg {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  position: relative;
+  transition: flex 0.3s;
+}
+.spectrum-seg:hover { flex: 1.3; }
+
+.spectrum-seg .arrow-label {
+  position: absolute;
+  bottom: -22px;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.spectrum-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+/* ========== PART 2: SPATIAL MEMORY ========== */
+.body-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.body-side {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.body-side h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.body-side .hint {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  margin-bottom: 1.2rem;
+}
+
+.limb-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.limb-label {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  text-align: right;
+  padding-right: 0.3rem;
+}
+
+.limb-cell {
+  padding: 0.5rem 0.3rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.limb-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(42,33,24,0.06);
+  margin-bottom: 0.5rem;
+}
+
+/* Route cards */
+.route-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.route-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.route-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+
+.route-card .route-name {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.route-card .route-pos {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.8rem;
+}
+
+.route-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.88rem;
+}
+
+.route-pair .tag {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.route-pair .link {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.route-mnemonic {
+  margin-top: 0.8rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--bg-warm);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--ink-light);
+  line-height: 1.7;
+}
+
+.note-box {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg-warm);
+  border-radius: 10px;
+  border-left: 3px solid var(--gold);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  line-height: 2;
+}
+
+/* ========== PART 3: FULL NAMES ========== */
+.combo-section {
+  margin-top: 1rem;
+}
+
+.combo-group {
+  margin-bottom: 1.5rem;
+}
+
+.combo-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.combo-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: white;
+}
+
+.combo-title span {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.combo-pair-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.combo-box {
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid;
+}
+
+.combo-box .full-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.combo-box .organ {
+  font-size: 0.78rem;
+  opacity: 0.7;
+  margin-top: 0.1rem;
+}
+
+.combo-arrow {
+  font-size: 1.3rem;
+  color: var(--ink-faint);
+}
+
+.combo-explain {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  text-align: center;
+  margin-top: -0.3rem;
+  margin-bottom: 1rem;
+}
+
+/* Decode formula */
+.decode {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.decode h4 {
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.formula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.formula-part {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.formula-op {
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+.formula-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-warm);
+  border-radius: 10px;
+}
+
+.formula-example .part {
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+/* ========== FULL TABLE ========== */
+.full-table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.full-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.82rem;
+  text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(42,33,24,0.08);
+  background: var(--bg-card);
+}
+
+.full-table thead th {
+  background: var(--bg-warm);
+  padding: 0.7rem 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(42,33,24,0.08);
+}
+
+.full-table tbody td {
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(42,33,24,0.04);
+  line-height: 1.6;
+}
+
+.full-table tbody tr:hover { background: rgba(184,148,46,0.03); }
+.full-table tbody tr:last-child td { border-bottom: none; }
+
+/* ========== INTERACTIVE QUIZ ========== */
+.quiz-section {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.quiz-section h4 {
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.08em;
+}
+
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-btn {
+  padding: 0.6rem 0.3rem;
+  border: 1px solid rgba(42,33,24,0.12);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+  text-align: center;
+}
+.quiz-btn:hover { border-color: var(--gold); background: var(--gold-soft); }
+.quiz-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+.quiz-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+.quiz-question {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+  min-height: 1.5em;
+}
+
+.quiz-result {
+  text-align: center;
+  font-size: 0.88rem;
+  min-height: 1.5em;
+  color: var(--ink-light);
+  margin-top: 0.5rem;
+}
+
+.quiz-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.quiz-controls button {
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+.quiz-controls button:hover { background: var(--gold); color: white; }
+
+/* ========== FOOTER ========== */
+footer {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  border-top: 1px solid rgba(42,33,24,0.06);
+}
+footer .seal { font-family: 'ZCOOL XiaoWei', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: 0.3rem; }
+
+/* ========== PART 4: LOGIC CHAIN ========== */
+.chain-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.chain-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.chain-content h4 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.chain-content p {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 2;
+}
+
+.chain-connector {
+  display: flex;
+  justify-content: center;
+  padding: 0.3rem 0;
+  color: var(--ink-faint);
+  font-size: 1.2rem;
+}
+
+.derive-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.82rem;
+  text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(42,33,24,0.08);
+  background: var(--bg-card);
+  margin: 1rem 0;
+}
+
+.derive-table thead th {
+  background: var(--bg-warm);
+  padding: 0.65rem 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(42,33,24,0.08);
+  font-size: 0.78rem;
+}
+
+.derive-table tbody td {
+  padding: 0.55rem 0.4rem;
+  border-bottom: 1px solid rgba(42,33,24,0.04);
+  line-height: 1.6;
+}
+.derive-table tbody tr:last-child td { border-bottom: none; }
+.derive-table tbody tr:hover { background: rgba(184,148,46,0.03); }
+
+.derive-arrow-cell {
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+.logic-summary {
+  margin: 2rem 0 0;
+  padding: 1.5rem 1.8rem;
+  background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg) 100%);
+  border-radius: 12px;
+  border: 1px solid var(--gold-soft);
+  text-align: center;
+}
+
+.logic-summary h4 {
+  font-size: 0.92rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+
+.logic-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.logic-node {
+  padding: 0.45rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.logic-arr {
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+
+.example-derive {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.example-derive h4 {
+  font-size: 0.88rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.derive-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.derive-step-row {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+
+.derive-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.derive-step-text {
+  font-size: 0.88rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+}
+
+.derive-step-text strong { color: var(--ink); }
+
+@media (max-width: 700px) {
+  .chain-step { grid-template-columns: 44px 1fr; gap: 0.8rem; }
+  .chain-num { width: 40px; height: 40px; font-size: 0.95rem; }
+  .logic-flow { gap: 0.2rem; }
+  .logic-node { font-size: 0.78rem; padding: 0.35rem 0.5rem; }
+  .derive-table { font-size: 0.75rem; }
+  .derive-table thead th { padding: 0.5rem 0.2rem; font-size: 0.72rem; }
+  .derive-table tbody td { padding: 0.45rem 0.2rem; }
+}
+
+/* ========== SCROLL ANIMATION ========== */
+.fade-in {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 700px) {
+  .body-diagram { grid-template-columns: 1fr; }
+  .route-cards { grid-template-columns: 1fr; }
+  .combo-pair-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  .combo-arrow { transform: rotate(90deg); }
+  .level-card { grid-template-columns: 60px 1fr; gap: 1rem; }
+  .level-badge { width: 56px; height: 56px; }
+  .level-badge .zh { font-size: 1.1rem; }
+  .quiz-grid { grid-template-columns: repeat(2, 1fr); }
+  .formula { gap: 0.3rem; }
+  .formula-part { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
+  .limb-row { grid-template-columns: 50px 1fr 1fr 1fr; gap: 0.3rem; }
+  .limb-cell { font-size: 0.75rem; padding: 0.4rem 0.2rem; }
+}
+</style>
 </head>
-
 <body>
 
-    <!-- ========== HERO ========== -->
-    <section class="hero">
-        <div class="hero-icon">☯</div>
-        <h1>六经与<span>十二经络</span></h1>
-        <p class="hero-sub">三把钥匙 · 打开经络命名的密码</p>
-        <div class="hero-intro">
-            很多人背十二经脉全名（如"手太阴肺经"）时觉得杂乱无章，其实这十二个名字的每一个字都不是随意的——它们遵循着一套极其精密的命名公式。本文用三个维度帮你彻底理解：阴阳的盛衰等级、四肢的空间分布、以及表里配对规律。掌握这三点之后，你不再需要死记硬背，而是可以像拼积木一样自己"推导"出全部十二条经脉的名字。
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-icon">☯</div>
+  <h1>六经与<span>十二经络</span></h1>
+  <p class="hero-sub">三把钥匙 · 打开经络命名的密码</p>
+  <div class="hero-intro">
+    很多人背十二经脉全名（如"手太阴肺经"）时觉得杂乱无章，其实这十二个名字的每一个字都不是随意的——它们遵循着一套极其精密的命名公式。本文用三个维度帮你彻底理解：阴阳的盛衰等级、四肢的空间分布、以及表里配对规律。掌握这三点之后，你不再需要死记硬背，而是可以像拼积木一样自己"推导"出全部十二条经脉的名字。
+  </div>
+</section>
+
+<!-- ========== NAV ========== -->
+<nav class="nav">
+  <a href="#part1">一 · 阴阳盛衰</a>
+  <a href="#part2">二 · 空间路线</a>
+  <a href="#part3">三 · 经脉全名</a>
+  <a href="#part4">四 · 命名逻辑链</a>
+  <a href="#table">总表</a>
+  <a href="#quiz">自测</a>
+</nav>
+
+<!-- ========== PART 1 ========== -->
+<section class="section fade-in" id="part1">
+  <span class="section-tag">第一把钥匙</span>
+  <h2>从"阴阳的多少"来理解</h2>
+  <p class="section-desc">
+    古人认为，人体的阴气和阳气并不是非此即彼的两个极端，而是各有三个等级——这就是中医独特的<strong>"三阴三阳"</strong>体系。你可以把它想象成一个从纯阳到纯阴的连续光谱，六经就是这条光谱上的六个刻度。
+  </p>
+
+  <!-- Spectrum -->
+  <div class="spectrum fade-in">
+    <h4>阴阳盛衰光谱</h4>
+    <div class="spectrum-bar">
+      <div class="spectrum-seg" style="background:var(--taiyang)">太阳</div>
+      <div class="spectrum-seg" style="background:var(--yangming)">阳明</div>
+      <div class="spectrum-seg" style="background:var(--shaoyang)">少阳</div>
+      <div class="spectrum-seg" style="background:var(--taiyin)">太阴</div>
+      <div class="spectrum-seg" style="background:var(--shaoyin)">少阴</div>
+      <div class="spectrum-seg" style="background:var(--jueyin)">厥阴</div>
+    </div>
+    <div class="spectrum-legend">
+      <span>← 阳气最盛</span>
+      <span>阳消阴长 →</span>
+      <span>阴气极盛 →</span>
+    </div>
+  </div>
+
+  <!-- SAN YANG -->
+  <div class="level-group-title" style="color:var(--taiyang)">三阳经 · 阳气的三个阶段</div>
+
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--taiyang)"></div>
+    <div class="card-body">
+      <div class="level-card c-ty">
+        <div class="level-badge"><span class="zh">太阳</span><span class="sub">Tài Yáng</span></div>
+        <div class="level-content">
+          <h4>太阳 <span class="meaning">"太"= 最大、极盛</span></h4>
+          <p>
+            <strong>含义：</strong>"太"是"大"的意思。太阳就是"阳气最大、最盛"。这条经的阳气最为充沛，分布在人体最外层的表面——后背和四肢的后侧。<br>
+            <strong>功能定位：</strong>太阳经就像人体的<strong>篱笆墙和城门卫兵</strong>。正因为阳气最足，才有能力驻守在最外面，第一个迎战外邪。当风寒来袭，最先被攻破的就是太阳这道防线——这就是为什么感冒初起时总是后脑勺发紧、脖子僵硬、怕冷（这些都是太阳经循行的区域）。<br>
+            <strong>对应经脉：</strong>足太阳膀胱经（从头顶沿后背一直到小脚趾，是人体最长的经脉）、手太阳小肠经。<br>
+            <strong>对应脏腑：</strong>膀胱、小肠（腑）。
+          </p>
+          <div class="keywords">
+            <span class="kw">阳气最盛</span>
+            <span class="kw">主表</span>
+            <span class="kw">藩篱</span>
+            <span class="kw">后背</span>
+            <span class="kw">膀胱·小肠</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>想象一座古城。太阳经就是最外面的<strong>城墙</strong>——它最高、最厚、兵力最多（阳气最盛），专门挡住外面的敌人（风寒外邪）。敌人进攻时，城墙第一个被攻击，这就是"太阳病"。
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <!-- ========== NAV ========== -->
-    <nav class="nav">
-        <a href="#part1">一 · 阴阳盛衰</a>
-        <a href="#part2">二 · 空间路线</a>
-        <a href="#part3">三 · 经脉全名</a>
-        <a href="#table">总表</a>
-        <a href="#quiz">自测</a>
-    </nav>
-
-    <!-- ========== PART 1 ========== -->
-    <section class="section fade-in" id="part1">
-        <span class="section-tag">第一把钥匙</span>
-        <h2>从"阴阳的多少"来理解</h2>
-        <p class="section-desc">
-            古人认为，人体的阴气和阳气并不是非此即彼的两个极端，而是各有三个等级——这就是中医独特的<strong>"三阴三阳"</strong>体系。你可以把它想象成一个从纯阳到纯阴的连续光谱，六经就是这条光谱上的六个刻度。
-        </p>
-
-        <!-- Spectrum -->
-        <div class="spectrum fade-in">
-            <h4>阴阳盛衰光谱</h4>
-            <div class="spectrum-bar">
-                <div class="spectrum-seg" style="background:var(--taiyang)">太阳</div>
-                <div class="spectrum-seg" style="background:var(--yangming)">阳明</div>
-                <div class="spectrum-seg" style="background:var(--shaoyang)">少阳</div>
-                <div class="spectrum-seg" style="background:var(--taiyin)">太阴</div>
-                <div class="spectrum-seg" style="background:var(--shaoyin)">少阴</div>
-                <div class="spectrum-seg" style="background:var(--jueyin)">厥阴</div>
-            </div>
-            <div class="spectrum-legend">
-                <span>← 阳气最盛</span>
-                <span>阳消阴长 →</span>
-                <span>阴气极盛 →</span>
-            </div>
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--yangming)"></div>
+    <div class="card-body">
+      <div class="level-card c-ym">
+        <div class="level-badge"><span class="zh">阳明</span><span class="sub">Yáng Míng</span></div>
+        <div class="level-content">
+          <h4>阳明 <span class="meaning">"明"= 光明、旺盛</span></h4>
+          <p>
+            <strong>含义：</strong>"两阳合明"。阳明是两条阳经（太阳和少阳）的阳气汇聚在一起的状态，所以阳气极其旺盛、明亮——就像正午的太阳，光芒最强。<br>
+            <strong>功能定位：</strong>阳明经是人体的<strong>能量工厂和粮仓</strong>。它主管消化吸收，气血最为旺盛——中医说"阳明多气多血"，在十二经中气血最为充足。它分布在身体的前面：面部、胸腹前方、四肢前侧。<br>
+            <strong>对应经脉：</strong>足阳明胃经（从眼睛下方沿胸腹前面到脚趾）、手阳明大肠经。<br>
+            <strong>对应脏腑：</strong>胃、大肠（腑）。
+          </p>
+          <div class="keywords">
+            <span class="kw">两阳合明</span>
+            <span class="kw">多气多血</span>
+            <span class="kw">主里热</span>
+            <span class="kw">身前</span>
+            <span class="kw">胃·大肠</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>阳明经就是古城的<strong>粮仓和集市</strong>——物资最丰富、人来人往最热闹（气血最旺）。一旦出了问题，就是物资堆积堵塞（便秘、腹满）或者着了大火（高热、大汗）。
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- SAN YANG -->
-        <div class="level-group-title" style="color:var(--taiyang)">三阳经 · 阳气的三个阶段</div>
-
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--taiyang)"></div>
-            <div class="card-body">
-                <div class="level-card c-ty">
-                    <div class="level-badge"><span class="zh">太阳</span><span class="sub">Tài Yáng</span></div>
-                    <div class="level-content">
-                        <h4>太阳 <span class="meaning">"太"= 最大、极盛</span></h4>
-                        <p>
-                            <strong>含义：</strong>"太"是"大"的意思。太阳就是"阳气最大、最盛"。这条经的阳气最为充沛，分布在人体最外层的表面——后背和四肢的后侧。<br>
-                            <strong>功能定位：</strong>太阳经就像人体的<strong>篱笆墙和城门卫兵</strong>。正因为阳气最足，才有能力驻守在最外面，第一个迎战外邪。当风寒来袭，最先被攻破的就是太阳这道防线——这就是为什么感冒初起时总是后脑勺发紧、脖子僵硬、怕冷（这些都是太阳经循行的区域）。<br>
-                            <strong>对应经脉：</strong>足太阳膀胱经（从头顶沿后背一直到小脚趾，是人体最长的经脉）、手太阳小肠经。<br>
-                            <strong>对应脏腑：</strong>膀胱、小肠（腑）。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">阳气最盛</span>
-                            <span class="kw">主表</span>
-                            <span class="kw">藩篱</span>
-                            <span class="kw">后背</span>
-                            <span class="kw">膀胱·小肠</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>想象一座古城。太阳经就是最外面的<strong>城墙</strong>——它最高、最厚、兵力最多（阳气最盛），专门挡住外面的敌人（风寒外邪）。敌人进攻时，城墙第一个被攻击，这就是"太阳病"。
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--shaoyang)"></div>
+    <div class="card-body">
+      <div class="level-card c-sy">
+        <div class="level-badge"><span class="zh">少阳</span><span class="sub">Shào Yáng</span></div>
+        <div class="level-content">
+          <h4>少阳 <span class="meaning">"少"= 幼小、初生</span></h4>
+          <p>
+            <strong>含义：</strong>"少"是"小"的意思。少阳是"阳气尚小、初生"的状态——就像清晨刚刚升起的太阳，力量虽弱但充满生发之机。<br>
+            <strong>功能定位：</strong>少阳经是人体的<strong>门轴和枢纽</strong>。它处在太阳（表）和阳明（里）之间，像一扇半开半掩的门，负责调控内外气机的出入。身体侧面（两肋、身体两侧、四肢的中间线）就是少阳的地盘。<br>
+            <strong>对应经脉：</strong>足少阳胆经（从眼角沿头侧、身体两侧到第四脚趾）、手少阳三焦经。<br>
+            <strong>对应脏腑：</strong>胆、三焦（腑）。<br>
+            <strong>为什么"少阳为枢"？</strong>枢就是门轴。门的开合全靠门轴转动。少阳就像人体气机这扇大门的轴，它调控着阳气的升降出入。少阳病的治法叫"和解"，不能猛攻（发汗、泻下、催吐），就是因为不能硬拧门轴。
+          </p>
+          <div class="keywords">
+            <span class="kw">初生之阳</span>
+            <span class="kw">主枢机</span>
+            <span class="kw">半表半里</span>
+            <span class="kw">身侧</span>
+            <span class="kw">胆·三焦</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>少阳经就是古城的<strong>城门</strong>——不是城墙（太阳），也不是城内集市（阳明），而是连接内外的关卡。门轴灵活则进出通畅；门轴卡住（枢机不利），就会一阵冷一阵热、进退两难（往来寒热）。
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--yangming)"></div>
-            <div class="card-body">
-                <div class="level-card c-ym">
-                    <div class="level-badge"><span class="zh">阳明</span><span class="sub">Yáng Míng</span></div>
-                    <div class="level-content">
-                        <h4>阳明 <span class="meaning">"明"= 光明、旺盛</span></h4>
-                        <p>
-                            <strong>含义：</strong>"两阳合明"。阳明是两条阳经（太阳和少阳）的阳气汇聚在一起的状态，所以阳气极其旺盛、明亮——就像正午的太阳，光芒最强。<br>
-                            <strong>功能定位：</strong>阳明经是人体的<strong>能量工厂和粮仓</strong>。它主管消化吸收，气血最为旺盛——中医说"阳明多气多血"，在十二经中气血最为充足。它分布在身体的前面：面部、胸腹前方、四肢前侧。<br>
-                            <strong>对应经脉：</strong>足阳明胃经（从眼睛下方沿胸腹前面到脚趾）、手阳明大肠经。<br>
-                            <strong>对应脏腑：</strong>胃、大肠（腑）。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">两阳合明</span>
-                            <span class="kw">多气多血</span>
-                            <span class="kw">主里热</span>
-                            <span class="kw">身前</span>
-                            <span class="kw">胃·大肠</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>阳明经就是古城的<strong>粮仓和集市</strong>——物资最丰富、人来人往最热闹（气血最旺）。一旦出了问题，就是物资堆积堵塞（便秘、腹满）或者着了大火（高热、大汗）。
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- SAN YIN -->
+  <div class="level-group-title" style="color:var(--taiyin)">三阴经 · 阴气的三个阶段</div>
+
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--taiyin)"></div>
+    <div class="card-body">
+      <div class="level-card c-tin">
+        <div class="level-badge"><span class="zh">太阴</span><span class="sub">Tài Yīn</span></div>
+        <div class="level-content">
+          <h4>太阴 <span class="meaning">"太"= 最大、最盛</span></h4>
+          <p>
+            <strong>含义：</strong>与太阳类似，"太"表示程度最高。太阴就是"阴气最大、最盛"——阴液最为充足。<br>
+            <strong>功能定位：</strong>太阴经是人体<strong>阴液的源泉和后勤补给站</strong>。脾主运化水谷精微（把食物变成气血），肺主宣散和通调水道（把营养物质和津液输送全身），两者合力为身体制造和输送所有的"阴性物质"（血液、津液、营养）。太阴经分布在四肢内侧的前缘。<br>
+            <strong>对应经脉：</strong>足太阴脾经、手太阴肺经。<br>
+            <strong>对应脏腑：</strong>脾、肺（脏）。<br>
+            <strong>太阴是三阴之门户：</strong>太阴是阴经系统中最浅的一层。如果说三阳是人体的外围防线，那么太阴就是敌人一旦突破阳经防线后遇到的第一道"内防"。太阴病的特点是"脾寒"——腹胀、拉肚子、不想吃东西，用温中的方法就可以恢复，属于三阴中最轻的。
+          </p>
+          <div class="keywords">
+            <span class="kw">阴气最盛</span>
+            <span class="kw">脾主运化</span>
+            <span class="kw">阴液之源</span>
+            <span class="kw">三阴之门</span>
+            <span class="kw">脾·肺</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>太阴经就像城里的<strong>水井和粮库管理处</strong>——负责把粮食加工成可用的物资并分配到各处。如果粮库管理出了问题（脾阳虚），食物堆着腐烂运不出去（腹满吐利），但不至于动摇根基。
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--shaoyang)"></div>
-            <div class="card-body">
-                <div class="level-card c-sy">
-                    <div class="level-badge"><span class="zh">少阳</span><span class="sub">Shào Yáng</span></div>
-                    <div class="level-content">
-                        <h4>少阳 <span class="meaning">"少"= 幼小、初生</span></h4>
-                        <p>
-                            <strong>含义：</strong>"少"是"小"的意思。少阳是"阳气尚小、初生"的状态——就像清晨刚刚升起的太阳，力量虽弱但充满生发之机。<br>
-                            <strong>功能定位：</strong>少阳经是人体的<strong>门轴和枢纽</strong>。它处在太阳（表）和阳明（里）之间，像一扇半开半掩的门，负责调控内外气机的出入。身体侧面（两肋、身体两侧、四肢的中间线）就是少阳的地盘。<br>
-                            <strong>对应经脉：</strong>足少阳胆经（从眼角沿头侧、身体两侧到第四脚趾）、手少阳三焦经。<br>
-                            <strong>对应脏腑：</strong>胆、三焦（腑）。<br>
-                            <strong>为什么"少阳为枢"？</strong>枢就是门轴。门的开合全靠门轴转动。少阳就像人体气机这扇大门的轴，它调控着阳气的升降出入。少阳病的治法叫"和解"，不能猛攻（发汗、泻下、催吐），就是因为不能硬拧门轴。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">初生之阳</span>
-                            <span class="kw">主枢机</span>
-                            <span class="kw">半表半里</span>
-                            <span class="kw">身侧</span>
-                            <span class="kw">胆·三焦</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>少阳经就是古城的<strong>城门</strong>——不是城墙（太阳），也不是城内集市（阳明），而是连接内外的关卡。门轴灵活则进出通畅；门轴卡住（枢机不利），就会一阵冷一阵热、进退两难（往来寒热）。
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--shaoyin)"></div>
+    <div class="card-body">
+      <div class="level-card c-sin">
+        <div class="level-badge"><span class="zh">少阴</span><span class="sub">Shào Yīn</span></div>
+        <div class="level-content">
+          <h4>少阴 <span class="meaning">"少"= 阴气渐弱、深入核心</span></h4>
+          <p>
+            <strong>含义：</strong>"少阴"并非阴气少，而是在三阴递进的层次中，阴气已由太阴的"浅层丰盛"深入到了人体核心的更深处——心和肾。<br>
+            <strong>功能定位：</strong>少阴经是人体的<strong>水火之本、生命之根</strong>。心属火（君火），肾属水（真水），两者一上一下，一热一寒，构成了人体最基本的水火平衡（又叫"心肾相交"）。少阴一旦出了问题，就像大楼的根基动摇——非常危险。<br>
+            <strong>对应经脉：</strong>足少阴肾经、手少阴心经。<br>
+            <strong>对应脏腑：</strong>肾、心（脏）。<br>
+            <strong>寒化与热化：</strong>因为心属火、肾属水，少阴病有两种完全不同的走向：如果阳气虚（火不够），阴寒占上风——怕冷、蜷缩、拉肚子（寒化证，用四逆汤急救回阳）；如果阴液虚（水不够），虚火冒上来——失眠、心烦、口干（热化证，用黄连阿胶汤滋阴降火）。
+          </p>
+          <div class="keywords">
+            <span class="kw">水火之脏</span>
+            <span class="kw">心肾相交</span>
+            <span class="kw">生命之根</span>
+            <span class="kw">寒化·热化</span>
+            <span class="kw">肾·心</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>少阴经是古城的<strong>城主府和水源地</strong>——城市的最高决策者（心=君主）和维系生命的水源（肾=先天之本）都在这里。如果这里被攻破，整座城市就面临崩溃。
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- SAN YIN -->
-        <div class="level-group-title" style="color:var(--taiyin)">三阴经 · 阴气的三个阶段</div>
-
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--taiyin)"></div>
-            <div class="card-body">
-                <div class="level-card c-tin">
-                    <div class="level-badge"><span class="zh">太阴</span><span class="sub">Tài Yīn</span></div>
-                    <div class="level-content">
-                        <h4>太阴 <span class="meaning">"太"= 最大、最盛</span></h4>
-                        <p>
-                            <strong>含义：</strong>与太阳类似，"太"表示程度最高。太阴就是"阴气最大、最盛"——阴液最为充足。<br>
-                            <strong>功能定位：</strong>太阴经是人体<strong>阴液的源泉和后勤补给站</strong>。脾主运化水谷精微（把食物变成气血），肺主宣散和通调水道（把营养物质和津液输送全身），两者合力为身体制造和输送所有的"阴性物质"（血液、津液、营养）。太阴经分布在四肢内侧的前缘。<br>
-                            <strong>对应经脉：</strong>足太阴脾经、手太阴肺经。<br>
-                            <strong>对应脏腑：</strong>脾、肺（脏）。<br>
-                            <strong>太阴是三阴之门户：</strong>太阴是阴经系统中最浅的一层。如果说三阳是人体的外围防线，那么太阴就是敌人一旦突破阳经防线后遇到的第一道"内防"。太阴病的特点是"脾寒"——腹胀、拉肚子、不想吃东西，用温中的方法就可以恢复，属于三阴中最轻的。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">阴气最盛</span>
-                            <span class="kw">脾主运化</span>
-                            <span class="kw">阴液之源</span>
-                            <span class="kw">三阴之门</span>
-                            <span class="kw">脾·肺</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>太阴经就像城里的<strong>水井和粮库管理处</strong>——负责把粮食加工成可用的物资并分配到各处。如果粮库管理出了问题（脾阳虚），食物堆着腐烂运不出去（腹满吐利），但不至于动摇根基。
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--jueyin)"></div>
+    <div class="card-body">
+      <div class="level-card c-jy">
+        <div class="level-badge"><span class="zh">厥阴</span><span class="sub">Jué Yīn</span></div>
+        <div class="level-content">
+          <h4>厥阴 <span class="meaning">"厥"= 穷尽、极点</span></h4>
+          <p>
+            <strong>含义：</strong>"厥"有穷尽、到头的意思。厥阴就是"阴气到了极点"——物极必反，这里也是阴阳转化的临界点。就像黎明前最暗的时刻，恰恰孕育着光明的到来。<br>
+            <strong>功能定位：</strong>厥阴经是人体<strong>阴阳交替的深层过渡带</strong>。肝主疏泄和藏血（调控气机的升发），心包代心行令（保护心脏的外围）。这一层处在三阴的最深处，阴寒到了极限，但阳气也开始在此萌动——所以厥阴病的突出特点是<strong>寒热错杂</strong>，上面有热下面有寒，各种矛盾交织。<br>
+            <strong>对应经脉：</strong>足厥阴肝经、手厥阴心包经。<br>
+            <strong>对应脏腑：</strong>肝、心包（脏）。<br>
+            <strong>厥阴病的两个结局：</strong>既然阴阳在此交争决战，那么结果只有两种——如果阳气恢复（热多于厥），病就要好了；如果阳气不回来（厥多于热），那就越来越危险。这也是为什么张仲景说"厥应下之"时格外谨慎。
+          </p>
+          <div class="keywords">
+            <span class="kw">阴之极</span>
+            <span class="kw">阳之始</span>
+            <span class="kw">寒热错杂</span>
+            <span class="kw">阴阳转化</span>
+            <span class="kw">肝·心包</span>
+          </div>
+          <div class="analogy">
+            <strong>生活比喻：</strong>厥阴就是古城围城战的<strong>最后一夜</strong>——最黑暗的时刻（阴极），但黎明（阳生）也即将到来。如果守军撑到了天亮（阳回），危机就会解除；如果天没亮城就破了（阳不回），那就是最坏的结局。
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--shaoyin)"></div>
-            <div class="card-body">
-                <div class="level-card c-sin">
-                    <div class="level-badge"><span class="zh">少阴</span><span class="sub">Shào Yīn</span></div>
-                    <div class="level-content">
-                        <h4>少阴 <span class="meaning">"少"= 阴气渐弱、深入核心</span></h4>
-                        <p>
-                            <strong>含义：</strong>"少阴"并非阴气少，而是在三阴递进的层次中，阴气已由太阴的"浅层丰盛"深入到了人体核心的更深处——心和肾。<br>
-                            <strong>功能定位：</strong>少阴经是人体的<strong>水火之本、生命之根</strong>。心属火（君火），肾属水（真水），两者一上一下，一热一寒，构成了人体最基本的水火平衡（又叫"心肾相交"）。少阴一旦出了问题，就像大楼的根基动摇——非常危险。<br>
-                            <strong>对应经脉：</strong>足少阴肾经、手少阴心经。<br>
-                            <strong>对应脏腑：</strong>肾、心（脏）。<br>
-                            <strong>寒化与热化：</strong>因为心属火、肾属水，少阴病有两种完全不同的走向：如果阳气虚（火不够），阴寒占上风——怕冷、蜷缩、拉肚子（寒化证，用四逆汤急救回阳）；如果阴液虚（水不够），虚火冒上来——失眠、心烦、口干（热化证，用黄连阿胶汤滋阴降火）。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">水火之脏</span>
-                            <span class="kw">心肾相交</span>
-                            <span class="kw">生命之根</span>
-                            <span class="kw">寒化·热化</span>
-                            <span class="kw">肾·心</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>少阴经是古城的<strong>城主府和水源地</strong>——城市的最高决策者（心=君主）和维系生命的水源（肾=先天之本）都在这里。如果这里被攻破，整座城市就面临崩溃。
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Quick comparison -->
+  <div class="note-box fade-in">
+    <strong>速记对比：</strong>三阳看"城防"——太阳是城墙（最外、兵最多）、少阳是城门（半开半合的枢纽）、阳明是集市粮仓（物资最丰）。三阴看"城内"——太阴是后勤处（管粮水供给）、少阴是城主府+水源地（核心命脉）、厥阴是围城最后一夜（生死转折）。
+  </div>
+</section>
+
+<!-- ========== PART 2 ========== -->
+<section class="section fade-in" id="part2">
+  <span class="section-tag">第二把钥匙</span>
+  <h2>空间记忆法：四肢的"前、中、后"路线图</h2>
+  <p class="section-desc">
+    如果第一把钥匙告诉你"六经是什么"，这第二把钥匙就告诉你"六经在哪里"。这六条经在我们胳膊和腿上，像高速公路一样平行排列，有着极其严格的"交通规则"。
+  </p>
+
+  <div class="card fade-in">
+    <div class="card-body">
+      <p style="font-size:0.9rem;color:var(--ink-light);margin-bottom:1rem;">
+        你想象自己举起双手，掌心向前，面朝阳光站立——
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+        <div style="padding:1rem;background:linear-gradient(135deg,#faf5e8,#f5ece0);border-radius:10px;text-align:center;">
+          <div style="font-size:1.2rem;margin-bottom:0.3rem;">☀️ 阳面</div>
+          <div style="font-size:0.85rem;color:var(--ink-light)">四肢的外侧、后背<br><strong>阳光能照到的地方</strong><br>= 阳经循行</div>
         </div>
-
-        <div class="card fade-in">
-            <div class="card-bar" style="background:var(--jueyin)"></div>
-            <div class="card-body">
-                <div class="level-card c-jy">
-                    <div class="level-badge"><span class="zh">厥阴</span><span class="sub">Jué Yīn</span></div>
-                    <div class="level-content">
-                        <h4>厥阴 <span class="meaning">"厥"= 穷尽、极点</span></h4>
-                        <p>
-                            <strong>含义：</strong>"厥"有穷尽、到头的意思。厥阴就是"阴气到了极点"——物极必反，这里也是阴阳转化的临界点。就像黎明前最暗的时刻，恰恰孕育着光明的到来。<br>
-                            <strong>功能定位：</strong>厥阴经是人体<strong>阴阳交替的深层过渡带</strong>。肝主疏泄和藏血（调控气机的升发），心包代心行令（保护心脏的外围）。这一层处在三阴的最深处，阴寒到了极限，但阳气也开始在此萌动——所以厥阴病的突出特点是<strong>寒热错杂</strong>，上面有热下面有寒，各种矛盾交织。<br>
-                            <strong>对应经脉：</strong>足厥阴肝经、手厥阴心包经。<br>
-                            <strong>对应脏腑：</strong>肝、心包（脏）。<br>
-                            <strong>厥阴病的两个结局：</strong>既然阴阳在此交争决战，那么结果只有两种——如果阳气恢复（热多于厥），病就要好了；如果阳气不回来（厥多于热），那就越来越危险。这也是为什么张仲景说"厥应下之"时格外谨慎。
-                        </p>
-                        <div class="keywords">
-                            <span class="kw">阴之极</span>
-                            <span class="kw">阳之始</span>
-                            <span class="kw">寒热错杂</span>
-                            <span class="kw">阴阳转化</span>
-                            <span class="kw">肝·心包</span>
-                        </div>
-                        <div class="analogy">
-                            <strong>生活比喻：</strong>厥阴就是古城围城战的<strong>最后一夜</strong>——最黑暗的时刻（阴极），但黎明（阳生）也即将到来。如果守军撑到了天亮（阳回），危机就会解除；如果天没亮城就破了（阳不回），那就是最坏的结局。
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div style="padding:1rem;background:linear-gradient(135deg,#eaeff5,#e0e8f0);border-radius:10px;text-align:center;">
+          <div style="font-size:1.2rem;margin-bottom:0.3rem;">🌙 阴面</div>
+          <div style="font-size:0.85rem;color:var(--ink-light)">四肢的内侧、胸腹<br><strong>阳光照不到的地方</strong><br>= 阴经循行</div>
         </div>
+      </div>
+      <p style="font-size:0.88rem;color:var(--ink-light);">
+        更妙的是，不管是手还是脚，阳经和阴经在四肢上的排列顺序<strong>完全一致</strong>。你只需记住一个口诀——<strong>"前、中、后"</strong>——就能定位所有十二条经脉的位置。
+      </p>
+    </div>
+  </div>
 
-        <!-- Quick comparison -->
-        <div class="note-box fade-in">
-            <strong>速记对比：</strong>三阳看"城防"——太阳是城墙（最外、兵最多）、少阳是城门（半开半合的枢纽）、阳明是集市粮仓（物资最丰）。三阴看"城内"——太阴是后勤处（管粮水供给）、少阴是城主府+水源地（核心命脉）、厥阴是围城最后一夜（生死转折）。
+  <!-- Body diagram -->
+  <div class="body-diagram fade-in">
+    <div class="body-side">
+      <h4>阳经（外侧）</h4>
+      <p class="hint">四肢外侧 · 后背面 · 从前到后</p>
+      <div style="margin-bottom:0.3rem;">
+        <div class="limb-row">
+          <div class="limb-label"></div>
+          <div class="limb-header">前（拇指侧）</div>
+          <div class="limb-header">中（中间）</div>
+          <div class="limb-header">后（小指侧）</div>
         </div>
-    </section>
-
-    <!-- ========== PART 2 ========== -->
-    <section class="section fade-in" id="part2">
-        <span class="section-tag">第二把钥匙</span>
-        <h2>空间记忆法：四肢的"前、中、后"路线图</h2>
-        <p class="section-desc">
-            如果第一把钥匙告诉你"六经是什么"，这第二把钥匙就告诉你"六经在哪里"。这六条经在我们胳膊和腿上，像高速公路一样平行排列，有着极其严格的"交通规则"。
-        </p>
-
-        <div class="card fade-in">
-            <div class="card-body">
-                <p style="font-size:0.9rem;color:var(--ink-light);margin-bottom:1rem;">
-                    你想象自己举起双手，掌心向前，面朝阳光站立——
-                </p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-                    <div
-                        style="padding:1rem;background:linear-gradient(135deg,#faf5e8,#f5ece0);border-radius:10px;text-align:center;">
-                        <div style="font-size:1.2rem;margin-bottom:0.3rem;">☀️ 阳面</div>
-                        <div style="font-size:0.85rem;color:var(--ink-light)">四肢的外侧、后背<br><strong>阳光能照到的地方</strong><br>=
-                            阳经循行</div>
-                    </div>
-                    <div
-                        style="padding:1rem;background:linear-gradient(135deg,#eaeff5,#e0e8f0);border-radius:10px;text-align:center;">
-                        <div style="font-size:1.2rem;margin-bottom:0.3rem;">🌙 阴面</div>
-                        <div style="font-size:0.85rem;color:var(--ink-light)">四肢的内侧、胸腹<br><strong>阳光照不到的地方</strong><br>=
-                            阴经循行</div>
-                    </div>
-                </div>
-                <p style="font-size:0.88rem;color:var(--ink-light);">
-                    更妙的是，不管是手还是脚，阳经和阴经在四肢上的排列顺序<strong>完全一致</strong>。你只需记住一个口诀——<strong>"前、中、后"</strong>——就能定位所有十二条经脉的位置。
-                </p>
-            </div>
+        <div class="limb-row">
+          <div class="limb-label">手</div>
+          <div class="limb-cell" style="background:var(--yangming-bg);color:var(--yangming)">阳明</div>
+          <div class="limb-cell" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</div>
+          <div class="limb-cell" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</div>
         </div>
-
-        <!-- Body diagram -->
-        <div class="body-diagram fade-in">
-            <div class="body-side">
-                <h4>阳经（外侧）</h4>
-                <p class="hint">四肢外侧 · 后背面 · 从前到后</p>
-                <div style="margin-bottom:0.3rem;">
-                    <div class="limb-row">
-                        <div class="limb-label"></div>
-                        <div class="limb-header">前（拇指侧）</div>
-                        <div class="limb-header">中（中间）</div>
-                        <div class="limb-header">后（小指侧）</div>
-                    </div>
-                    <div class="limb-row">
-                        <div class="limb-label">手</div>
-                        <div class="limb-cell" style="background:var(--yangming-bg);color:var(--yangming)">阳明</div>
-                        <div class="limb-cell" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</div>
-                        <div class="limb-cell" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</div>
-                    </div>
-                    <div class="limb-row">
-                        <div class="limb-label">足</div>
-                        <div class="limb-cell" style="background:var(--yangming-bg);color:var(--yangming)">阳明</div>
-                        <div class="limb-cell" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</div>
-                        <div class="limb-cell" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</div>
-                    </div>
-                </div>
-            </div>
-            <div class="body-side">
-                <h4>阴经（内侧）</h4>
-                <p class="hint">四肢内侧 · 胸腹面 · 从前到后</p>
-                <div style="margin-bottom:0.3rem;">
-                    <div class="limb-row">
-                        <div class="limb-label"></div>
-                        <div class="limb-header">前（拇指侧）</div>
-                        <div class="limb-header">中（中间）</div>
-                        <div class="limb-header">后（小指侧）</div>
-                    </div>
-                    <div class="limb-row">
-                        <div class="limb-label">手</div>
-                        <div class="limb-cell" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</div>
-                        <div class="limb-cell" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</div>
-                        <div class="limb-cell" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</div>
-                    </div>
-                    <div class="limb-row">
-                        <div class="limb-label">足</div>
-                        <div class="limb-cell" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</div>
-                        <div class="limb-cell" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</div>
-                        <div class="limb-cell" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</div>
-                    </div>
-                </div>
-            </div>
+        <div class="limb-row">
+          <div class="limb-label">足</div>
+          <div class="limb-cell" style="background:var(--yangming-bg);color:var(--yangming)">阳明</div>
+          <div class="limb-cell" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</div>
+          <div class="limb-cell" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</div>
         </div>
-
-        <!-- Route Cards -->
-        <h3 style="font-size:1rem;text-align:center;margin:2rem 0 0.5rem;letter-spacing:0.08em;">三条路线详解</h3>
-        <p style="text-align:center;font-size:0.85rem;color:var(--ink-faint);margin-bottom:1.2rem;">
-            注意内外对应：同一路线上的阳经与阴经，恰好互为表里</p>
-
-        <div class="route-cards fade-in">
-            <!-- 前 -->
-            <div class="route-card">
-                <div class="route-name" style="color:var(--yangming)">前路线</div>
-                <div class="route-pos">靠近拇指 / 大脚趾一侧</div>
-                <div class="route-pair">
-                    <span class="tag" style="background:var(--yangming-bg);color:var(--yangming)">阳明</span>
-                    <span class="link">⇄ 表里</span>
-                    <span class="tag" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</span>
-                </div>
-                <div class="route-mnemonic">
-                    <strong>口诀：</strong>前面最宽敞亮堂，所以是"<strong>明</strong>"和"<strong>太</strong>"——阳明在外，太阴在内。
-                </div>
-            </div>
-            <!-- 中 -->
-            <div class="route-card">
-                <div class="route-name" style="color:var(--shaoyang)">中路线</div>
-                <div class="route-pos">侧面 / 中间线</div>
-                <div class="route-pair">
-                    <span class="tag" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</span>
-                    <span class="link">⇄ 表里</span>
-                    <span class="tag" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</span>
-                </div>
-                <div class="route-mnemonic">
-                    <strong>口诀：</strong>中间是枢纽和过渡带，所以是"<strong>少</strong>"和"<strong>厥</strong>"——少阳（枢）在外，厥阴（阴阳过渡）在内。
-                </div>
-            </div>
-            <!-- 后 -->
-            <div class="route-card">
-                <div class="route-name" style="color:var(--taiyang)">后路线</div>
-                <div class="route-pos">靠近小指 / 小脚趾一侧</div>
-                <div class="route-pair">
-                    <span class="tag" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</span>
-                    <span class="link">⇄ 表里</span>
-                    <span class="tag" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</span>
-                </div>
-                <div class="route-mnemonic">
-                    <strong>口诀：</strong>后面是背部阳光照耀之处和身体最深层核心，所以是"<strong>太阳</strong>"在外，"<strong>少阴</strong>"在内。
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="body-side">
+      <h4>阴经（内侧）</h4>
+      <p class="hint">四肢内侧 · 胸腹面 · 从前到后</p>
+      <div style="margin-bottom:0.3rem;">
+        <div class="limb-row">
+          <div class="limb-label"></div>
+          <div class="limb-header">前（拇指侧）</div>
+          <div class="limb-header">中（中间）</div>
+          <div class="limb-header">后（小指侧）</div>
         </div>
-
-        <div class="note-box fade-in">
-            <strong>特殊说明：</strong>在下肢的小腿内侧下半部分（内踝上8寸以下），太阴脾经和厥阴肝经会交叉换位——原本在前面的太阴经走到了中间，而厥阴经走到了前面。这是"足三阴交叉"的特殊现象，"三阴交"这个穴位（内踝上三寸）就因为三条阴经在此交会而得名。但整体大规律（前太阴、中厥阴、后少阴）在四肢上始终适用。
+        <div class="limb-row">
+          <div class="limb-label">手</div>
+          <div class="limb-cell" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</div>
+          <div class="limb-cell" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</div>
+          <div class="limb-cell" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</div>
         </div>
-    </section>
-
-    <!-- ========== PART 3 ========== -->
-    <section class="section fade-in" id="part3">
-        <span class="section-tag">第三把钥匙</span>
-        <h2>终极组合：十二经脉的"全名"是怎么来的？</h2>
-        <p class="section-desc">
-            掌握了前两把钥匙，你已经知道了"六经的阴阳等级"和"它们在四肢上的位置"。现在把所有信息组合到一起——十二经脉的全名就是一套<strong>命名公式</strong>的产物。
-        </p>
-
-        <!-- Decode formula -->
-        <div class="decode fade-in">
-            <h4>经脉命名公式</h4>
-            <div class="formula">
-                <div class="formula-part" style="background:var(--taiyang-bg);color:var(--taiyang)">手 / 足</div>
-                <div class="formula-op">+</div>
-                <div class="formula-part" style="background:var(--shaoyang-bg);color:var(--shaoyang)">三阴三阳</div>
-                <div class="formula-op">+</div>
-                <div class="formula-part" style="background:var(--taiyin-bg);color:var(--taiyin)">脏腑名</div>
-                <div class="formula-op">+</div>
-                <div class="formula-part" style="background:var(--bg-warm);color:var(--ink-light)">经</div>
-            </div>
-            <div style="font-size:0.85rem;color:var(--ink-faint);margin:0.5rem 0 1rem;">
-                第一个字说"在哪个肢体"，中间说"阴阳等级"，后面说"所属脏腑"
-            </div>
-            <div class="formula-example">
-                <span class="part" style="background:var(--taiyang-bg);color:var(--taiyang)">足</span>
-                <span style="color:var(--ink-faint)">+</span>
-                <span class="part" style="background:var(--shaoyang-bg);color:var(--shaoyang)">太阳</span>
-                <span style="color:var(--ink-faint)">+</span>
-                <span class="part" style="background:var(--taiyin-bg);color:var(--taiyin)">膀胱</span>
-                <span style="color:var(--ink-faint)">+</span>
-                <span class="part" style="background:var(--bg-warm);color:var(--ink-light)">经</span>
-                <span style="color:var(--ink-faint);margin:0 0.5rem">=</span>
-                <span class="part" style="background:var(--gold-soft);color:var(--gold);font-weight:700">足太阳膀胱经</span>
-            </div>
+        <div class="limb-row">
+          <div class="limb-label">足</div>
+          <div class="limb-cell" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</div>
+          <div class="limb-cell" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</div>
+          <div class="limb-cell" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <p style="font-size:0.9rem;color:var(--ink-light);margin:1.5rem 0;">
-            掌握了公式之后，十二经脉就是<strong>三组"前中后"配对</strong>——前路线上的一对表里、中路线上的一对表里、后路线上的一对表里，每对各有手和足两条，3×2×2 = 12，刚好十二经脉。
-        </p>
+  <!-- Route Cards -->
+  <h3 style="font-size:1rem;text-align:center;margin:2rem 0 0.5rem;letter-spacing:0.08em;">三条路线详解</h3>
+  <p style="text-align:center;font-size:0.85rem;color:var(--ink-faint);margin-bottom:1.2rem;">注意内外对应：同一路线上的阳经与阴经，恰好互为表里</p>
 
-        <!-- Combo groups -->
-        <div class="combo-section">
-            <!-- 前排 -->
-            <div class="combo-group card fade-in">
-                <div class="card-body">
-                    <div class="combo-title">
-                        <span class="combo-badge" style="background:var(--yangming)">前排</span>
-                        <span>太阴 ⇄ 阳明 · 脾肺对胃肠</span>
-                    </div>
-                    <div class="combo-explain">前路线（拇指/大脚趾侧），阳明在外侧，太阴在内侧</div>
+  <div class="route-cards fade-in">
+    <!-- 前 -->
+    <div class="route-card">
+      <div class="route-name" style="color:var(--yangming)">前路线</div>
+      <div class="route-pos">靠近拇指 / 大脚趾一侧</div>
+      <div class="route-pair">
+        <span class="tag" style="background:var(--yangming-bg);color:var(--yangming)">阳明</span>
+        <span class="link">⇄ 表里</span>
+        <span class="tag" style="background:var(--taiyin-bg);color:var(--taiyin)">太阴</span>
+      </div>
+      <div class="route-mnemonic">
+        <strong>口诀：</strong>前面最宽敞亮堂，所以是"<strong>明</strong>"和"<strong>太</strong>"——阳明在外，太阴在内。
+      </div>
+    </div>
+    <!-- 中 -->
+    <div class="route-card">
+      <div class="route-name" style="color:var(--shaoyang)">中路线</div>
+      <div class="route-pos">侧面 / 中间线</div>
+      <div class="route-pair">
+        <span class="tag" style="background:var(--shaoyang-bg);color:var(--shaoyang)">少阳</span>
+        <span class="link">⇄ 表里</span>
+        <span class="tag" style="background:var(--jueyin-bg);color:var(--jueyin)">厥阴</span>
+      </div>
+      <div class="route-mnemonic">
+        <strong>口诀：</strong>中间是枢纽和过渡带，所以是"<strong>少</strong>"和"<strong>厥</strong>"——少阳（枢）在外，厥阴（阴阳过渡）在内。
+      </div>
+    </div>
+    <!-- 后 -->
+    <div class="route-card">
+      <div class="route-name" style="color:var(--taiyang)">后路线</div>
+      <div class="route-pos">靠近小指 / 小脚趾一侧</div>
+      <div class="route-pair">
+        <span class="tag" style="background:var(--taiyang-bg);color:var(--taiyang)">太阳</span>
+        <span class="link">⇄ 表里</span>
+        <span class="tag" style="background:var(--shaoyin-bg);color:var(--shaoyin)">少阴</span>
+      </div>
+      <div class="route-mnemonic">
+        <strong>口诀：</strong>后面是背部阳光照耀之处和身体最深层核心，所以是"<strong>太阳</strong>"在外，"<strong>少阴</strong>"在内。
+      </div>
+    </div>
+  </div>
 
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(46,94,78,0.2);background:var(--taiyin-bg)">
-                            <div class="full-name" style="color:var(--taiyin)">手太阴肺经</div>
-                            <div class="organ">肺（脏）· 手臂内侧前缘</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(179,92,30,0.2);background:var(--yangming-bg)">
-                            <div class="full-name" style="color:var(--yangming)">手阳明大肠经</div>
-                            <div class="organ">大肠（腑）· 手臂外侧前缘</div>
-                        </div>
-                    </div>
+  <div class="note-box fade-in">
+    <strong>特殊说明：</strong>在下肢的小腿内侧下半部分（内踝上8寸以下），太阴脾经和厥阴肝经会交叉换位——原本在前面的太阴经走到了中间，而厥阴经走到了前面。这是"足三阴交叉"的特殊现象，"三阴交"这个穴位（内踝上三寸）就因为三条阴经在此交会而得名。但整体大规律（前太阴、中厥阴、后少阴）在四肢上始终适用。
+  </div>
+</section>
 
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(46,94,78,0.2);background:var(--taiyin-bg)">
-                            <div class="full-name" style="color:var(--taiyin)">足太阴脾经</div>
-                            <div class="organ">脾（脏）· 下肢内侧前缘</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(179,92,30,0.2);background:var(--yangming-bg)">
-                            <div class="full-name" style="color:var(--yangming)">足阳明胃经</div>
-                            <div class="organ">胃（腑）· 下肢外侧前缘</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- ========== PART 3 ========== -->
+<section class="section fade-in" id="part3">
+  <span class="section-tag">第三把钥匙</span>
+  <h2>终极组合：十二经脉的"全名"是怎么来的？</h2>
+  <p class="section-desc">
+    掌握了前两把钥匙，你已经知道了"六经的阴阳等级"和"它们在四肢上的位置"。现在把所有信息组合到一起——十二经脉的全名就是一套<strong>命名公式</strong>的产物。
+  </p>
 
-            <!-- 中排 -->
-            <div class="combo-group card fade-in">
-                <div class="card-body">
-                    <div class="combo-title">
-                        <span class="combo-badge" style="background:var(--shaoyang)">中排</span>
-                        <span>厥阴 ⇄ 少阳 · 肝胆心包三焦</span>
-                    </div>
-                    <div class="combo-explain">中路线（中间侧面），少阳在外侧，厥阴在内侧</div>
+  <!-- Decode formula -->
+  <div class="decode fade-in">
+    <h4>经脉命名公式</h4>
+    <div class="formula">
+      <div class="formula-part" style="background:var(--taiyang-bg);color:var(--taiyang)">手 / 足</div>
+      <div class="formula-op">+</div>
+      <div class="formula-part" style="background:var(--shaoyang-bg);color:var(--shaoyang)">三阴三阳</div>
+      <div class="formula-op">+</div>
+      <div class="formula-part" style="background:var(--taiyin-bg);color:var(--taiyin)">脏腑名</div>
+      <div class="formula-op">+</div>
+      <div class="formula-part" style="background:var(--bg-warm);color:var(--ink-light)">经</div>
+    </div>
+    <div style="font-size:0.85rem;color:var(--ink-faint);margin:0.5rem 0 1rem;">
+      第一个字说"在哪个肢体"，中间说"阴阳等级"，后面说"所属脏腑"
+    </div>
+    <div class="formula-example">
+      <span class="part" style="background:var(--taiyang-bg);color:var(--taiyang)">足</span>
+      <span style="color:var(--ink-faint)">+</span>
+      <span class="part" style="background:var(--shaoyang-bg);color:var(--shaoyang)">太阳</span>
+      <span style="color:var(--ink-faint)">+</span>
+      <span class="part" style="background:var(--taiyin-bg);color:var(--taiyin)">膀胱</span>
+      <span style="color:var(--ink-faint)">+</span>
+      <span class="part" style="background:var(--bg-warm);color:var(--ink-light)">经</span>
+      <span style="color:var(--ink-faint);margin:0 0.5rem">=</span>
+      <span class="part" style="background:var(--gold-soft);color:var(--gold);font-weight:700">足太阳膀胱经</span>
+    </div>
+  </div>
 
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(120,40,31,0.2);background:var(--jueyin-bg)">
-                            <div class="full-name" style="color:var(--jueyin)">手厥阴心包经</div>
-                            <div class="organ">心包（脏）· 手臂内侧中间</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(125,102,8,0.2);background:var(--shaoyang-bg)">
-                            <div class="full-name" style="color:var(--shaoyang)">手少阳三焦经</div>
-                            <div class="organ">三焦（腑）· 手臂外侧中间</div>
-                        </div>
-                    </div>
+  <p style="font-size:0.9rem;color:var(--ink-light);margin:1.5rem 0;">
+    掌握了公式之后，十二经脉就是<strong>三组"前中后"配对</strong>——前路线上的一对表里、中路线上的一对表里、后路线上的一对表里，每对各有手和足两条，3×2×2 = 12，刚好十二经脉。
+  </p>
 
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(120,40,31,0.2);background:var(--jueyin-bg)">
-                            <div class="full-name" style="color:var(--jueyin)">足厥阴肝经</div>
-                            <div class="organ">肝（脏）· 下肢内侧中间</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(125,102,8,0.2);background:var(--shaoyang-bg)">
-                            <div class="full-name" style="color:var(--shaoyang)">足少阳胆经</div>
-                            <div class="organ">胆（腑）· 下肢外侧中间</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Combo groups -->
+  <div class="combo-section">
+    <!-- 前排 -->
+    <div class="combo-group card fade-in">
+      <div class="card-body">
+        <div class="combo-title">
+          <span class="combo-badge" style="background:var(--yangming)">前排</span>
+          <span>太阴 ⇄ 阳明 · 脾肺对胃肠</span>
+        </div>
+        <div class="combo-explain">前路线（拇指/大脚趾侧），阳明在外侧，太阴在内侧</div>
 
-            <!-- 后排 -->
-            <div class="combo-group card fade-in">
-                <div class="card-body">
-                    <div class="combo-title">
-                        <span class="combo-badge" style="background:var(--taiyang)">后排</span>
-                        <span>少阴 ⇄ 太阳 · 心肾对小肠膀胱</span>
-                    </div>
-                    <div class="combo-explain">后路线（小指/小脚趾侧），太阳在外侧，少阴在内侧</div>
-
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(91,44,111,0.2);background:var(--shaoyin-bg)">
-                            <div class="full-name" style="color:var(--shaoyin)">手少阴心经</div>
-                            <div class="organ">心（脏）· 手臂内侧后缘</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(26,82,118,0.2);background:var(--taiyang-bg)">
-                            <div class="full-name" style="color:var(--taiyang)">手太阳小肠经</div>
-                            <div class="organ">小肠（腑）· 手臂外侧后缘</div>
-                        </div>
-                    </div>
-
-                    <div class="combo-pair-row">
-                        <div class="combo-box" style="border-color:rgba(91,44,111,0.2);background:var(--shaoyin-bg)">
-                            <div class="full-name" style="color:var(--shaoyin)">足少阴肾经</div>
-                            <div class="organ">肾（脏）· 下肢内侧后缘</div>
-                        </div>
-                        <div class="combo-arrow">⇄</div>
-                        <div class="combo-box" style="border-color:rgba(26,82,118,0.2);background:var(--taiyang-bg)">
-                            <div class="full-name" style="color:var(--taiyang)">足太阳膀胱经</div>
-                            <div class="organ">膀胱（腑）· 下肢外侧后缘</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(46,94,78,0.2);background:var(--taiyin-bg)">
+            <div class="full-name" style="color:var(--taiyin)">手太阴肺经</div>
+            <div class="organ">肺（脏）· 手臂内侧前缘</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(179,92,30,0.2);background:var(--yangming-bg)">
+            <div class="full-name" style="color:var(--yangming)">手阳明大肠经</div>
+            <div class="organ">大肠（腑）· 手臂外侧前缘</div>
+          </div>
         </div>
 
-        <div class="note-box fade-in">
-            <strong>深层规律：</strong>你会发现，表里配对恰好是<strong>一脏一腑</strong>——阴经都连脏（肺、脾、心、肾、肝、心包），阳经都连腑（大肠、胃、小肠、膀胱、胆、三焦）。脏为阴，主储藏精气；腑为阳，主传化水谷。脏和腑通过表里经脉相互沟通：比如肺经和大肠经互为表里，所以感冒咳嗽（肺经问题）时有时会伴有大便变化（大肠经联动）。
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(46,94,78,0.2);background:var(--taiyin-bg)">
+            <div class="full-name" style="color:var(--taiyin)">足太阴脾经</div>
+            <div class="organ">脾（脏）· 下肢内侧前缘</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(179,92,30,0.2);background:var(--yangming-bg)">
+            <div class="full-name" style="color:var(--yangming)">足阳明胃经</div>
+            <div class="organ">胃（腑）· 下肢外侧前缘</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- ========== FULL TABLE ========== -->
-    <section class="section fade-in" id="table">
-        <h2 style="font-family:'ZCOOL XiaoWei',serif;font-size:1.7rem;letter-spacing:0.12em;margin-bottom:1.5rem;">
-            十二经脉总表</h2>
+    <!-- 中排 -->
+    <div class="combo-group card fade-in">
+      <div class="card-body">
+        <div class="combo-title">
+          <span class="combo-badge" style="background:var(--shaoyang)">中排</span>
+          <span>厥阴 ⇄ 少阳 · 肝胆心包三焦</span>
+        </div>
+        <div class="combo-explain">中路线（中间侧面），少阳在外侧，厥阴在内侧</div>
 
-        <div class="full-table-wrap">
-            <table class="full-table">
-                <thead>
-                    <tr>
-                        <th>路线</th>
-                        <th>表里组</th>
-                        <th>阴经（里·脏）</th>
-                        <th>阳经（表·腑）</th>
-                        <th>四肢位置</th>
-                        <th>循行概要</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="2" style="font-weight:600;color:var(--yangming)">前</td>
-                        <td rowspan="2">太阴⇄阳明</td>
-                        <td style="color:var(--taiyin);font-weight:600">手太阴肺经</td>
-                        <td style="color:var(--yangming);font-weight:600">手阳明大肠经</td>
-                        <td>上肢前缘</td>
-                        <td>胸→拇指尖→食指尖→面部</td>
-                    </tr>
-                    <tr>
-                        <td style="color:var(--taiyin);font-weight:600">足太阴脾经</td>
-                        <td style="color:var(--yangming);font-weight:600">足阳明胃经</td>
-                        <td>下肢前缘</td>
-                        <td>面部→大脚趾→大脚趾内侧→胸腹</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2" style="font-weight:600;color:var(--shaoyang)">中</td>
-                        <td rowspan="2">厥阴⇄少阳</td>
-                        <td style="color:var(--jueyin);font-weight:600">手厥阴心包经</td>
-                        <td style="color:var(--shaoyang);font-weight:600">手少阳三焦经</td>
-                        <td>上肢中间</td>
-                        <td>胸→中指尖→无名指尖→头侧</td>
-                    </tr>
-                    <tr>
-                        <td style="color:var(--jueyin);font-weight:600">足厥阴肝经</td>
-                        <td style="color:var(--shaoyang);font-weight:600">足少阳胆经</td>
-                        <td>下肢中间</td>
-                        <td>头侧→第四趾→大脚趾→胸胁</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2" style="font-weight:600;color:var(--taiyang)">后</td>
-                        <td rowspan="2">少阴⇄太阳</td>
-                        <td style="color:var(--shaoyin);font-weight:600">手少阴心经</td>
-                        <td style="color:var(--taiyang);font-weight:600">手太阳小肠经</td>
-                        <td>上肢后缘</td>
-                        <td>胸→小指尖→小指外侧→面部</td>
-                    </tr>
-                    <tr>
-                        <td style="color:var(--shaoyin);font-weight:600">足少阴肾经</td>
-                        <td style="color:var(--taiyang);font-weight:600">足太阳膀胱经</td>
-                        <td>下肢后缘</td>
-                        <td>头→后背→小脚趾→足心→胸腹</td>
-                    </tr>
-                </tbody>
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(120,40,31,0.2);background:var(--jueyin-bg)">
+            <div class="full-name" style="color:var(--jueyin)">手厥阴心包经</div>
+            <div class="organ">心包（脏）· 手臂内侧中间</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(125,102,8,0.2);background:var(--shaoyang-bg)">
+            <div class="full-name" style="color:var(--shaoyang)">手少阳三焦经</div>
+            <div class="organ">三焦（腑）· 手臂外侧中间</div>
+          </div>
+        </div>
+
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(120,40,31,0.2);background:var(--jueyin-bg)">
+            <div class="full-name" style="color:var(--jueyin)">足厥阴肝经</div>
+            <div class="organ">肝（脏）· 下肢内侧中间</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(125,102,8,0.2);background:var(--shaoyang-bg)">
+            <div class="full-name" style="color:var(--shaoyang)">足少阳胆经</div>
+            <div class="organ">胆（腑）· 下肢外侧中间</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 后排 -->
+    <div class="combo-group card fade-in">
+      <div class="card-body">
+        <div class="combo-title">
+          <span class="combo-badge" style="background:var(--taiyang)">后排</span>
+          <span>少阴 ⇄ 太阳 · 心肾对小肠膀胱</span>
+        </div>
+        <div class="combo-explain">后路线（小指/小脚趾侧），太阳在外侧，少阴在内侧</div>
+
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(91,44,111,0.2);background:var(--shaoyin-bg)">
+            <div class="full-name" style="color:var(--shaoyin)">手少阴心经</div>
+            <div class="organ">心（脏）· 手臂内侧后缘</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(26,82,118,0.2);background:var(--taiyang-bg)">
+            <div class="full-name" style="color:var(--taiyang)">手太阳小肠经</div>
+            <div class="organ">小肠（腑）· 手臂外侧后缘</div>
+          </div>
+        </div>
+
+        <div class="combo-pair-row">
+          <div class="combo-box" style="border-color:rgba(91,44,111,0.2);background:var(--shaoyin-bg)">
+            <div class="full-name" style="color:var(--shaoyin)">足少阴肾经</div>
+            <div class="organ">肾（脏）· 下肢内侧后缘</div>
+          </div>
+          <div class="combo-arrow">⇄</div>
+          <div class="combo-box" style="border-color:rgba(26,82,118,0.2);background:var(--taiyang-bg)">
+            <div class="full-name" style="color:var(--taiyang)">足太阳膀胱经</div>
+            <div class="organ">膀胱（腑）· 下肢外侧后缘</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box fade-in">
+    <strong>深层规律：</strong>你会发现，表里配对恰好是<strong>一脏一腑</strong>——阴经都连脏（肺、脾、心、肾、肝、心包），阳经都连腑（大肠、胃、小肠、膀胱、胆、三焦）。脏为阴，主储藏精气；腑为阳，主传化水谷。脏和腑通过表里经脉相互沟通：比如肺经和大肠经互为表里，所以感冒咳嗽（肺经问题）时有时会伴有大便变化（大肠经联动）。
+  </div>
+</section>
+
+<!-- ========== FULL TABLE ========== -->
+<section class="section fade-in" id="table">
+  <h2 style="font-family:'ZCOOL XiaoWei',serif;font-size:1.7rem;letter-spacing:0.12em;margin-bottom:1.5rem;">十二经脉总表</h2>
+
+  <div class="full-table-wrap">
+    <table class="full-table">
+      <thead>
+        <tr>
+          <th>路线</th>
+          <th>表里组</th>
+          <th>阴经（里·脏）</th>
+          <th>阳经（表·腑）</th>
+          <th>四肢位置</th>
+          <th>循行概要</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2" style="font-weight:600;color:var(--yangming)">前</td>
+          <td rowspan="2">太阴⇄阳明</td>
+          <td style="color:var(--taiyin);font-weight:600">手太阴肺经</td>
+          <td style="color:var(--yangming);font-weight:600">手阳明大肠经</td>
+          <td>上肢前缘</td>
+          <td>胸→拇指尖→食指尖→面部</td>
+        </tr>
+        <tr>
+          <td style="color:var(--taiyin);font-weight:600">足太阴脾经</td>
+          <td style="color:var(--yangming);font-weight:600">足阳明胃经</td>
+          <td>下肢前缘</td>
+          <td>面部→大脚趾→大脚趾内侧→胸腹</td>
+        </tr>
+        <tr>
+          <td rowspan="2" style="font-weight:600;color:var(--shaoyang)">中</td>
+          <td rowspan="2">厥阴⇄少阳</td>
+          <td style="color:var(--jueyin);font-weight:600">手厥阴心包经</td>
+          <td style="color:var(--shaoyang);font-weight:600">手少阳三焦经</td>
+          <td>上肢中间</td>
+          <td>胸→中指尖→无名指尖→头侧</td>
+        </tr>
+        <tr>
+          <td style="color:var(--jueyin);font-weight:600">足厥阴肝经</td>
+          <td style="color:var(--shaoyang);font-weight:600">足少阳胆经</td>
+          <td>下肢中间</td>
+          <td>头侧→第四趾→大脚趾→胸胁</td>
+        </tr>
+        <tr>
+          <td rowspan="2" style="font-weight:600;color:var(--taiyang)">后</td>
+          <td rowspan="2">少阴⇄太阳</td>
+          <td style="color:var(--shaoyin);font-weight:600">手少阴心经</td>
+          <td style="color:var(--taiyang);font-weight:600">手太阳小肠经</td>
+          <td>上肢后缘</td>
+          <td>胸→小指尖→小指外侧→面部</td>
+        </tr>
+        <tr>
+          <td style="color:var(--shaoyin);font-weight:600">足少阴肾经</td>
+          <td style="color:var(--taiyang);font-weight:600">足太阳膀胱经</td>
+          <td>下肢后缘</td>
+          <td>头→后背→小脚趾→足心→胸腹</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========== PART 4: NAMING LOGIC CHAIN ========== -->
+<section class="section fade-in" id="part4">
+  <span class="section-tag">第四把钥匙</span>
+  <h2>命名逻辑链：每个字都有来历</h2>
+  <p class="section-desc">
+    "足太阳膀胱经"这五个字，为什么偏偏是"足"而不是"手"？为什么是"太阳"而不是"少阳"？为什么是"膀胱"而不是"肾"？这背后有一条严密的逻辑链条——三层规则叠加，每条经脉的全名就被唯一确定了。
+  </p>
+
+  <!-- Three Rules -->
+  <div class="card fade-in">
+    <div class="card-bar" style="background:var(--gold)"></div>
+    <div class="card-body">
+
+      <div class="chain-step">
+        <div class="chain-num">一</div>
+        <div class="chain-content">
+          <h4>第一层：脏腑的阴阳属性 → 决定"阴经还是阳经"</h4>
+          <p>
+            中医把内脏分为<strong>"脏"</strong>和<strong>"腑"</strong>两大类。脏（心、肝、脾、肺、肾、心包）属阴，主储藏精气，功能内敛而深藏；腑（胃、大肠、小肠、膀胱、胆、三焦）属阳，主传化水谷，功能外散而通降。<br><br>
+            由此产生了一条铁律：<strong>阴经一律连脏，阳经一律连腑</strong>——没有例外。所以"膀胱"是腑，它必定属于阳经；"肾"是脏，它必定属于阴经。这一步确定了经脉名字中"阴/阳"的大方向。
+          </p>
+        </div>
+      </div>
+
+      <div class="chain-connector">↓</div>
+
+      <div class="chain-step">
+        <div class="chain-num">二</div>
+        <div class="chain-content">
+          <h4>第二层：脏腑之间的表里配对 → 决定"哪脏配哪腑"</h4>
+          <p>
+            古人通过长期临床观察发现，某些脏和腑在功能上密切关联，形成了固定的"一脏一腑"搭档关系。这些配对并非随意指定，而是基于脏腑之间真实的生理联系：
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin:1rem 0;">
+            <div style="padding:0.7rem 0.8rem;background:var(--taiyin-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--taiyin)">肺 ⇄ 大肠</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">肺主肃降，大肠主传导。两者共同管理水液和糟粕的下行通道。临床上肺气不宣可致便秘，大肠燥结也可影响肺气。</span>
+            </div>
+            <div style="padding:0.7rem 0.8rem;background:var(--yangming-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--yangming)">脾 ⇄ 胃</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">脾主运化升清，胃主受纳降浊。两者一升一降、一运一纳，共同完成消化吸收——合称"后天之本"。</span>
+            </div>
+            <div style="padding:0.7rem 0.8rem;background:var(--shaoyin-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--shaoyin)">心 ⇄ 小肠</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">心主血脉和神志，小肠分清泌浊为心提供营养精微。心火过旺可下移小肠，出现尿赤尿痛（"心移热于小肠"）。</span>
+            </div>
+            <div style="padding:0.7rem 0.8rem;background:var(--taiyang-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--taiyang)">肾 ⇄ 膀胱</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">肾主水、藏精，膀胱贮尿排尿。膀胱的气化功能依赖肾阳的温煦——肾阳不足则小便清长、尿频。</span>
+            </div>
+            <div style="padding:0.7rem 0.8rem;background:var(--jueyin-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--jueyin)">肝 ⇄ 胆</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">肝主疏泄、藏血，胆贮藏胆汁并主决断。肝气郁结可影响胆汁排泄（胁痛、口苦），两者升降相依。</span>
+            </div>
+            <div style="padding:0.7rem 0.8rem;background:var(--shaoyang-bg);border-radius:8px;font-size:0.85rem;line-height:1.8;">
+              <strong style="color:var(--shaoyang)">心包 ⇄ 三焦</strong><br>
+              <span style="color:var(--ink-faint);font-size:0.8rem;">心包代心行令、护卫心脏，三焦为水火气机运行的通道——两者共同维持全身气化和水液代谢的通畅。</span>
+            </div>
+          </div>
+          <p>
+            这六对搭档是几百年临床经验的总结。经络理论在此基础上为每对搭档建立了<strong>物理连接通道</strong>（表里经脉在四肢末端交接）。这一步确定了"哪条阴经和哪条阳经配成一对"。
+          </p>
+        </div>
+      </div>
+
+      <div class="chain-connector">↓</div>
+
+      <div class="chain-step">
+        <div class="chain-num">三</div>
+        <div class="chain-content">
+          <h4>第三层：脏腑位置高低 + 经脉循行走向 → 决定"手/足"和"三阴三阳等级"</h4>
+          <p>
+            十二经脉的循行路线是古人通过针灸实践（针感传导、穴位效应）逐步摸索出来的。最终发现了一个规律：脏腑在体腔中的位置高低，与经脉走上肢还是下肢有密切关系。
+          </p>
+          <p style="margin-top:0.5rem;">
+            <strong>大体规律：</strong>胸腔中较高位置的脏腑（心、肺、心包）连接<strong>手经</strong>，腹腔中较低位置的脏腑（脾、肝、肾）连接<strong>足经</strong>；与它们表里配对的腑也跟着走同一肢体。
+          </p>
+
+          <div style="overflow-x:auto;margin:1rem 0;">
+            <table class="derive-table">
+              <thead>
+                <tr>
+                  <th>脏腑位置</th>
+                  <th>脏（阴经）</th>
+                  <th></th>
+                  <th>腑（阳经）</th>
+                  <th>手/足</th>
+                  <th>四肢路线</th>
+                  <th>三阴三阳</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="3" style="font-weight:600;writing-mode:vertical-rl;letter-spacing:0.1em;color:var(--ink-faint);padding:0.8rem 0.3rem;">胸腔<br>（高位）</td>
+                  <td style="color:var(--taiyin);font-weight:600">肺</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--yangming);font-weight:600">大肠</td>
+                  <td style="font-weight:600">手</td>
+                  <td>前路线</td>
+                  <td>太阴 ⇄ 阳明</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--shaoyin);font-weight:600">心</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--taiyang);font-weight:600">小肠</td>
+                  <td style="font-weight:600">手</td>
+                  <td>后路线</td>
+                  <td>少阴 ⇄ 太阳</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--jueyin);font-weight:600">心包</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--shaoyang);font-weight:600">三焦</td>
+                  <td style="font-weight:600">手</td>
+                  <td>中路线</td>
+                  <td>厥阴 ⇄ 少阳</td>
+                </tr>
+                <tr style="border-top:2px solid rgba(42,33,24,0.08);">
+                  <td rowspan="3" style="font-weight:600;writing-mode:vertical-rl;letter-spacing:0.1em;color:var(--ink-faint);padding:0.8rem 0.3rem;">腹腔<br>（低位）</td>
+                  <td style="color:var(--taiyin);font-weight:600">脾</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--yangming);font-weight:600">胃</td>
+                  <td style="font-weight:600">足</td>
+                  <td>前路线</td>
+                  <td>太阴 ⇄ 阳明</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--shaoyin);font-weight:600">肾</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--taiyang);font-weight:600">膀胱</td>
+                  <td style="font-weight:600">足</td>
+                  <td>后路线</td>
+                  <td>少阴 ⇄ 太阳</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--jueyin);font-weight:600">肝</td>
+                  <td class="derive-arrow-cell">⇄</td>
+                  <td style="color:var(--shaoyang);font-weight:600">胆</td>
+                  <td style="font-weight:600">足</td>
+                  <td>中路线</td>
+                  <td>厥阴 ⇄ 少阳</td>
+                </tr>
+              </tbody>
             </table>
+          </div>
+
+          <p>
+            至于三阴三阳的等级分配——为什么肾是"少阴"而不是"太阴"——这就由<strong>经脉在四肢上的前中后位置</strong>决定。肾经走在内侧后缘（后路线 = 少阴），脾经走在内侧前缘（前路线 = 太阴），肝经走在内侧中间（中路线 = 厥阴）。经脉的实际循行走向与三阴三阳等级之间的对应关系是固定的。
+          </p>
         </div>
-    </section>
+      </div>
 
-    <!-- ========== QUIZ ========== -->
-    <section class="section fade-in" id="quiz">
-        <h2 style="font-family:'ZCOOL XiaoWei',serif;font-size:1.7rem;letter-spacing:0.12em;margin-bottom:0.5rem;">自我测试
-        </h2>
-        <p style="font-size:0.88rem;color:var(--ink-faint);margin-bottom:1.5rem;">检验一下你的掌握程度吧！点击你认为正确的答案。</p>
+    </div>
+  </div>
 
-        <div class="quiz-section" id="quizArea">
-            <h4>经络知识小测验</h4>
-            <div class="quiz-question" id="qText">正在加载题目...</div>
-            <div class="quiz-grid" id="qOptions"></div>
-            <div class="quiz-result" id="qResult"></div>
-            <div class="quiz-controls">
-                <button onclick="nextQuestion()">下一题</button>
-                <button onclick="resetQuiz()">重新开始</button>
-            </div>
-            <div style="text-align:center;margin-top:0.8rem;font-size:0.82rem;color:var(--ink-faint);">
-                得分：<span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span>
-            </div>
+  <!-- Logic summary -->
+  <div class="logic-summary fade-in">
+    <h4>完整命名逻辑链</h4>
+    <div class="logic-flow">
+      <span class="logic-node" style="background:var(--taiyin-bg);color:var(--taiyin)">脏腑阴阳属性</span>
+      <span class="logic-arr">→</span>
+      <span class="logic-node" style="background:var(--bg-card);color:var(--ink-light);border:1px solid rgba(42,33,24,0.12)">阴经连脏 / 阳经连腑</span>
+    </div>
+    <div class="logic-flow">
+      <span class="logic-node" style="background:var(--shaoyin-bg);color:var(--shaoyin)">脏腑表里配对</span>
+      <span class="logic-arr">→</span>
+      <span class="logic-node" style="background:var(--bg-card);color:var(--ink-light);border:1px solid rgba(42,33,24,0.12)">一脏一腑组队</span>
+    </div>
+    <div class="logic-flow">
+      <span class="logic-node" style="background:var(--yangming-bg);color:var(--yangming)">脏腑位置高低</span>
+      <span class="logic-arr">→</span>
+      <span class="logic-node" style="background:var(--bg-card);color:var(--ink-light);border:1px solid rgba(42,33,24,0.12)">胸腔→手经 / 腹腔→足经</span>
+    </div>
+    <div class="logic-flow">
+      <span class="logic-node" style="background:var(--shaoyang-bg);color:var(--shaoyang)">四肢前中后走向</span>
+      <span class="logic-arr">→</span>
+      <span class="logic-node" style="background:var(--bg-card);color:var(--ink-light);border:1px solid rgba(42,33,24,0.12)">确定三阴三阳等级</span>
+    </div>
+    <p style="font-size:0.85rem;color:var(--ink-faint);margin-top:0.8rem;">四条规则叠加，每条经脉的全名被唯一确定——不需要死记硬背</p>
+  </div>
+
+  <!-- Worked example -->
+  <div class="example-derive fade-in">
+    <h4>实战推导：如何"算"出一条经脉的全名？</h4>
+    <p style="text-align:center;font-size:0.88rem;color:var(--ink-faint);margin-bottom:1.2rem;">以"膀胱"为例，一步步推出它的经脉全名</p>
+    <div class="derive-steps">
+      <div class="derive-step-row">
+        <div class="derive-step-num">1</div>
+        <div class="derive-step-text"><strong>膀胱是"腑"</strong> → 腑属阳 → 所以膀胱经一定是<strong>阳经</strong></div>
+      </div>
+      <div class="derive-step-row">
+        <div class="derive-step-num">2</div>
+        <div class="derive-step-text"><strong>膀胱的表里搭档是"肾"</strong> → 肾在腹腔下部 → 所以这对搭档走<strong>足（下肢）</strong></div>
+      </div>
+      <div class="derive-step-row">
+        <div class="derive-step-num">3</div>
+        <div class="derive-step-text"><strong>膀胱经走在下肢外侧后缘</strong>（靠小脚趾侧）→ 后路线的阳经 = <strong>太阳</strong></div>
+      </div>
+      <div class="derive-step-row">
+        <div class="derive-step-num">4</div>
+        <div class="derive-step-text">组合公式：<strong>足</strong> + <strong>太阳</strong> + <strong>膀胱</strong> + 经 = <span style="color:var(--taiyang);font-weight:700">足太阳膀胱经</span> ✓</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(42,33,24,0.06);">
+      <p style="text-align:center;font-size:0.88rem;color:var(--ink-faint);margin-bottom:1rem;">再试一个：以"心包"为例</p>
+      <div class="derive-steps">
+        <div class="derive-step-row">
+          <div class="derive-step-num">1</div>
+          <div class="derive-step-text"><strong>心包是"脏"</strong> → 脏属阴 → 所以心包经一定是<strong>阴经</strong></div>
         </div>
-    </section>
+        <div class="derive-step-row">
+          <div class="derive-step-num">2</div>
+          <div class="derive-step-text"><strong>心包在胸腔</strong> → 胸腔脏腑走上肢 → 所以是<strong>手（上肢）</strong></div>
+        </div>
+        <div class="derive-step-row">
+          <div class="derive-step-num">3</div>
+          <div class="derive-step-text"><strong>心包经走在上肢内侧中间线</strong> → 中路线的阴经 = <strong>厥阴</strong></div>
+        </div>
+        <div class="derive-step-row">
+          <div class="derive-step-num">4</div>
+          <div class="derive-step-text">组合公式：<strong>手</strong> + <strong>厥阴</strong> + <strong>心包</strong> + 经 = <span style="color:var(--jueyin);font-weight:700">手厥阴心包经</span> ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <footer>
-        <div class="seal">经络学习</div>
-        <p>六经与十二经络 · 学习资料 · 仅供学习参考</p>
-    </footer>
+  <div class="note-box fade-in">
+    <strong>为什么"同名经"总是成对出现？</strong>你会发现，同一个三阴三阳等级下一定有一条手经和一条足经——比如"手太阳小肠经"和"足太阳膀胱经"，虽然分属不同脏腑、走不同肢体，但它们在四肢上的相对位置完全一致（都在后路线），阴阳等级也相同（都是太阳）。这种"同名经"关系在针灸临床中很有用：当某条经不便取穴时，可以取同名经上的穴位来替代治疗——比如头痛取足太阳经的穴位效果不佳时，可以配合手太阳经的穴位，因为它们本质上是同一级别的经脉。
+  </div>
+</section>
 
-    <script>
-        // Scroll animation
-        const obs = new IntersectionObserver(es => {
-            es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-        document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+<!-- ========== QUIZ ========== -->
+<section class="section fade-in" id="quiz">
+  <h2 style="font-family:'ZCOOL XiaoWei',serif;font-size:1.7rem;letter-spacing:0.12em;margin-bottom:0.5rem;">自我测试</h2>
+  <p style="font-size:0.88rem;color:var(--ink-faint);margin-bottom:1.5rem;">检验一下你的掌握程度吧！点击你认为正确的答案。</p>
 
-        // Quiz
-        const questions = [
-            { q: '"太阳"中的"太"是什么意思？', opts: ['最大、极盛', '太平、安定', '初始、起点'], ans: 0 },
-            { q: '"阳明"的含义是？', opts: ['阳气微明', '两阳合明，阳气极旺', '阳气开始出现'], ans: 1 },
-            { q: '"少阳"在人体的什么位置？', opts: ['前面', '侧面（半表半里）', '后面'], ans: 1 },
-            { q: '"厥"在"厥阴"中的含义是？', opts: ['冷的、寒的', '微弱的、细小的', '穷尽、极点'], ans: 2 },
-            { q: '四肢外侧前路线（拇指侧）走的阳经是？', opts: ['太阳', '阳明', '少阳'], ans: 1 },
-            { q: '四肢内侧后路线（小指侧）走的阴经是？', opts: ['太阴', '少阴', '厥阴'], ans: 1 },
-            { q: '太阴经与哪条阳经互为表里？', opts: ['太阳', '少阳', '阳明'], ans: 2 },
-            { q: '足太阳膀胱经走在下肢的什么位置？', opts: ['内侧前缘', '外侧后缘', '外侧中间'], ans: 1 },
-            { q: '手厥阴心包经与哪条经互为表里？', opts: ['手少阳三焦经', '手太阳小肠经', '手阳明大肠经'], ans: 0 },
-            { q: '"少阳为枢"的"枢"是什么意思？', opts: ['中心、核心', '门轴、枢纽', '开始、起源'], ans: 1 },
-            { q: '十二经脉命名公式的正确顺序是？', opts: ['脏腑名+三阴三阳+手足+经', '手足+三阴三阳+脏腑名+经', '三阴三阳+手足+经+脏腑名'], ans: 1 },
-            { q: '阴经连接的是脏还是腑？', opts: ['脏（储藏精气）', '腑（传化水谷）', '脏和腑各一半'], ans: 0 },
-            { q: '少阴经对应的脏腑是？', opts: ['脾和肺', '肝和心包', '心和肾'], ans: 2 },
-            { q: '哪条经是人体最长的经脉？', opts: ['足阳明胃经', '足太阳膀胱经', '足少阳胆经'], ans: 1 },
-            { q: '"三阴交"穴位得名的原因是？', opts: ['三条阳经在此交会', '三条阴经在此交会', '阴阳在此转化'], ans: 1 },
-        ];
+  <div class="quiz-section" id="quizArea">
+    <h4>经络知识小测验</h4>
+    <div class="quiz-question" id="qText">正在加载题目...</div>
+    <div class="quiz-grid" id="qOptions"></div>
+    <div class="quiz-result" id="qResult"></div>
+    <div class="quiz-controls">
+      <button onclick="nextQuestion()">下一题</button>
+      <button onclick="resetQuiz()">重新开始</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;font-size:0.82rem;color:var(--ink-faint);">
+      得分：<span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span>
+    </div>
+  </div>
+</section>
 
-        let qi = 0, score = 0, total = 0, answered = false;
-        const shuffled = questions.sort(() => Math.random() - 0.5);
+<footer>
+  <div class="seal">经络学习</div>
+  <p>六经与十二经络 · 学习资料 · 仅供学习参考</p>
+</footer>
 
-        function showQuestion() {
-            if (qi >= shuffled.length) {
-                document.getElementById('qText').textContent = '全部答完！';
-                document.getElementById('qOptions').innerHTML = '';
-                document.getElementById('qResult').textContent = '最终得分：' + score + ' / ' + total;
-                return;
-            }
-            answered = false;
-            const q = shuffled[qi];
-            document.getElementById('qText').textContent = (qi + 1) + '. ' + q.q;
-            document.getElementById('qResult').textContent = '';
-            const grid = document.getElementById('qOptions');
-            grid.innerHTML = '';
-            q.opts.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-btn';
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(i, btn);
-                grid.appendChild(btn);
-            });
-        }
+<script>
+// Scroll animation
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
-        function checkAnswer(i, btn) {
-            if (answered) return;
-            answered = true;
-            total++;
-            const q = shuffled[qi];
-            const btns = document.querySelectorAll('.quiz-btn');
-            if (i === q.ans) {
-                btn.classList.add('correct');
-                score++;
-                document.getElementById('qResult').textContent = '正确！';
-            } else {
-                btn.classList.add('wrong');
-                btns[q.ans].classList.add('correct');
-                document.getElementById('qResult').textContent = '答错了，正确答案已标出。';
-            }
-            document.getElementById('scoreDisplay').textContent = score;
-            document.getElementById('totalDisplay').textContent = total;
-        }
+// Quiz
+const questions = [
+  { q: '"太阳"中的"太"是什么意思？', opts: ['最大、极盛', '太平、安定', '初始、起点'], ans: 0 },
+  { q: '"阳明"的含义是？', opts: ['阳气微明', '两阳合明，阳气极旺', '阳气开始出现'], ans: 1 },
+  { q: '"少阳"在人体的什么位置？', opts: ['前面', '侧面（半表半里）', '后面'], ans: 1 },
+  { q: '"厥"在"厥阴"中的含义是？', opts: ['冷的、寒的', '微弱的、细小的', '穷尽、极点'], ans: 2 },
+  { q: '四肢外侧前路线（拇指侧）走的阳经是？', opts: ['太阳', '阳明', '少阳'], ans: 1 },
+  { q: '四肢内侧后路线（小指侧）走的阴经是？', opts: ['太阴', '少阴', '厥阴'], ans: 1 },
+  { q: '太阴经与哪条阳经互为表里？', opts: ['太阳', '少阳', '阳明'], ans: 2 },
+  { q: '足太阳膀胱经走在下肢的什么位置？', opts: ['内侧前缘', '外侧后缘', '外侧中间'], ans: 1 },
+  { q: '手厥阴心包经与哪条经互为表里？', opts: ['手少阳三焦经', '手太阳小肠经', '手阳明大肠经'], ans: 0 },
+  { q: '"少阳为枢"的"枢"是什么意思？', opts: ['中心、核心', '门轴、枢纽', '开始、起源'], ans: 1 },
+  { q: '十二经脉命名公式的正确顺序是？', opts: ['脏腑名+三阴三阳+手足+经', '手足+三阴三阳+脏腑名+经', '三阴三阳+手足+经+脏腑名'], ans: 1 },
+  { q: '阴经连接的是脏还是腑？', opts: ['脏（储藏精气）', '腑（传化水谷）', '脏和腑各一半'], ans: 0 },
+  { q: '少阴经对应的脏腑是？', opts: ['脾和肺', '肝和心包', '心和肾'], ans: 2 },
+  { q: '哪条经是人体最长的经脉？', opts: ['足阳明胃经', '足太阳膀胱经', '足少阳胆经'], ans: 1 },
+  { q: '"三阴交"穴位得名的原因是？', opts: ['三条阳经在此交会', '三条阴经在此交会', '阴阳在此转化'], ans: 1 },
+  { q: '阴经连接的是脏还是腑？', opts: ['脏（储藏精气）', '腑（传化水谷）', '两者都有'], ans: 0 },
+  { q: '心、肺、心包这三脏连接的是手经还是足经？', opts: ['足经（下肢）', '手经（上肢）', '手足各半'], ans: 1 },
+  { q: '为什么膀胱经是"足"经而不是"手"经？', opts: ['膀胱在腹腔下部，搭档肾也在腹腔', '膀胱离脚比较近', '古人随意安排的'], ans: 0 },
+  { q: '肺与大肠互为表里的生理基础是？', opts: ['两者都在右侧', '肺主肃降，大肠主传导，共管下行通道', '两者颜色相似'], ans: 1 },
+  { q: '"同名经"取穴替代的原理是？', opts: ['经脉在四肢的相对位置和阴阳等级相同', '名字相同所以功能相同', '属于同一脏腑'], ans: 0 },
+];
 
-        function nextQuestion() { qi++; showQuestion(); }
-        function resetQuiz() {
-            qi = 0; score = 0; total = 0;
-            shuffled.sort(() => Math.random() - 0.5);
-            document.getElementById('scoreDisplay').textContent = 0;
-            document.getElementById('totalDisplay').textContent = 0;
-            showQuestion();
-        }
+let qi = 0, score = 0, total = 0, answered = false;
+const shuffled = questions.sort(() => Math.random() - 0.5);
 
-        showQuestion();
-    </script>
+function showQuestion() {
+  if (qi >= shuffled.length) {
+    document.getElementById('qText').textContent = '全部答完！';
+    document.getElementById('qOptions').innerHTML = '';
+    document.getElementById('qResult').textContent = '最终得分：' + score + ' / ' + total;
+    return;
+  }
+  answered = false;
+  const q = shuffled[qi];
+  document.getElementById('qText').textContent = (qi+1) + '. ' + q.q;
+  document.getElementById('qResult').textContent = '';
+  const grid = document.getElementById('qOptions');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(i, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function checkAnswer(i, btn) {
+  if (answered) return;
+  answered = true;
+  total++;
+  const q = shuffled[qi];
+  const btns = document.querySelectorAll('.quiz-btn');
+  if (i === q.ans) {
+    btn.classList.add('correct');
+    score++;
+    document.getElementById('qResult').textContent = '正确！';
+  } else {
+    btn.classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    document.getElementById('qResult').textContent = '答错了，正确答案已标出。';
+  }
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('totalDisplay').textContent = total;
+}
+
+function nextQuestion() { qi++; showQuestion(); }
+function resetQuiz() {
+  qi = 0; score = 0; total = 0;
+  shuffled.sort(() => Math.random() - 0.5);
+  document.getElementById('scoreDisplay').textContent = 0;
+  document.getElementById('totalDisplay').textContent = 0;
+  showQuestion();
+}
+
+showQuestion();
+</script>
 </body>
-
 </html>
